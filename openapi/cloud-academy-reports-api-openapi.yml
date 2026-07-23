@@ -1,0 +1,4210 @@
+swagger: '2.0'
+info:
+  title: QA Learning Management System Reports API
+  description: "\n## Keys for QA API\n\nQA uses API keys to authenticate calls to its API.\n\nThe Authentication used is OAuth2 with client credential flow; Note that the SSL channel securely encrypts your keys pair.\n\n## How to find or generate Your API Key\n\nFor integrating with the QA API, you need to generate an API key pairs. Enterprise members with Admin permissions can generate and view their own API keys on the settings area of their Company Account [here](https://platform.qa.com/organizations/settings/api/).\n\nNote that each admin comes with his distinct API keys pair.\n\n## Revoking and Regenerating an API keys pair\n\nAt any time, an admin can generate new API keys pairs; by going through this step, the previous keys pair is revoked.\n\n## How to authenticate API calls using the keys pair\n\nIn order to authenticate API calls each request needs to provide a valid access token. \n\nTo generate a token, a dedicated endpoint exists:\n\n__https://platform.qa.com/oauth2/token/__\n\nThe token generation endpoint accepts a POST call and works using Basic Authentication where the user and the password to be provided are the API keys:\n\nusername is the CLIENT_ID\npassword is the CLIENT_SECRET\n\nIn addition to requiring the CLIENT_ID and CLIENT_SECRET for the authorization header, the API also requires the content-type to be set to 'application/x-www-form-urlencoded' and the body must contain 'grant_type=client_credentials'.\n\nThis is an example of the token generation in cURL:\n\n```bash\ncurl 'https://platform.qa.com/oauth2/token/' \n  -H 'accept: application/json'\n  -H 'authorization: Basic [YOUR_CLIENT_ID:YOUR_CLIENT_SECRET]'\n  -H 'content-type: application/x-www-form-urlencoded'\n  --data-raw 'grant_type=client_credentials'\n```\n\nThe token has a limited duration of 10 hours, so it could be cached to be reused and renewed when it expires, but it is also perfectly fine to generate a new one before each API call.\n\n## Get Help\nIn case of issues, more info can be found in the following [article](https://support.cloudacademy.com/hc/en-us/articles/360040446031-Cloud-Academy-API)\n"
+  version: v1
+host: platform.qa.com
+basePath: /restapi
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+security:
+- oauth2: []
+tags:
+- name: Reports
+paths:
+  /v1/reports/certifications/:
+    parameters: []
+    post:
+      operationId: v1_reports_certifications_create
+      summary: '
+
+        Triggers the generation of certification report, listing all uploaded member certifications including their level, achievement date and expiry date
+
+        '
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of certification report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: certifications_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: certifications_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/content-access/:
+    parameters: []
+    post:
+      operationId: v1_reports_content-access_create
+      summary: Triggers the generation of a content access report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a content access report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: content_access_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: content_access_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/content-inventory-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_content-inventory-export_create
+      summary: Triggers the generation of Content Inventory Report
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of Content Inventory Report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+        Please take a look at the ''model'' description of the data to know which parameters are mandatory and which are not.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    content_statuses:
+                      title: content_statuses
+                      description: '[Optional] Max Length 10'
+                      type: array
+                      items: string
+                    content_types:
+                      title: content_types
+                      description: '[Optional] Max Length 10'
+                      type: array
+                      items: string
+                    created_by_ids:
+                      title: created_by_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                    creation_end_date:
+                      title: creation_end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    creation_start_date:
+                      title: creation_start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    is_public:
+                      title: is_public
+                      description: '[Optional]'
+                      type: boolean
+                    last_modified_by_ids:
+                      title: last_modified_by_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                    last_modified_end_date:
+                      title: last_modified_end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    last_modified_start_date:
+                      title: last_modified_start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                type:
+                  title: type
+                  type: string
+                  example: content_inventory_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: content_inventory_report_request
+        '403':
+          description: Not permitted to view report details
+          examples:
+            body:
+              errors:
+              - detail: You don't have the permissions to access this API.
+                source:
+                  pointer: /data
+                status: '403'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/content-progress/:
+    parameters: []
+    post:
+      operationId: v1_reports_content-progress_create
+      summary: Triggers the generation of Content Progress report [DEPRECATED]
+      description: "\n## Description\nThis endpoint triggers the generation of Content Progress report, returning information about the triggered report generation job.\nOne request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.\nSince all parameters are optional, the payload is not mandatory therefore you can send an empty request. \n\nThis report replaces the deprecated consumption-content report.\nThis API is deprecated: please use /v2/reports/content-progress/ instead.\n"
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: content_progress_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: content_progress_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v1/reports/content-skills-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_content-skills-export_create
+      summary: Triggers the generation of content skills report; retrieves skills relating to a content [DEPRECATED]
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of content skills report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        This API is deprecated: please use /v2/reports/content-skills-export/ instead.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: content_skills_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: content_skills_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v1/reports/course-uplift-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_course-uplift-export_create
+      summary: Triggers the generation of Course Uplift Report
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of Course Uplift Report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+        Please take a look at the ''model'' description of the data to know which parameters are mandatory and which are not.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: course_uplift_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: course_uplift_report_request
+        '403':
+          description: Not permitted to view report details
+          examples:
+            body:
+              errors:
+              - detail: You don't have the permissions to access this API.
+                source:
+                  pointer: /data
+                status: '403'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/cpe-score-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_cpe-score-export_create
+      summary: Triggers the generation of cpe score report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of cpe score report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: cpe_score_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties: {}
+                  type:
+                    title: type
+                    type: string
+                    example: cpe_score_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/custom-reports/:
+    parameters: []
+    get:
+      operationId: v1_reports_custom-reports_list
+      summary: Retrieves all available custom reports
+      description: '
+
+        ## Description
+
+
+        This endpoint provides all available custom reports for a company.
+
+
+        The response contains the list of custom reports along with a brief description and usage information for each.
+
+        The "template" field contains a list of the components of the request payload. Use the information in the template field to format the report data.
+
+        '
+      parameters: []
+      responses:
+        '200':
+          description: Retrieves all available custom reports
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        description:
+                          title: description
+                          type: string
+                        filters:
+                          title: filters
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              field_names:
+                                title: field_names
+                                type: object
+                                properties:
+                                  field_name:
+                                    title: field_name
+                                    type: object
+                                    properties:
+                                      format:
+                                        title: format
+                                        type: string
+                                      required:
+                                        title: required
+                                        type: boolean
+                                      type:
+                                        title: type
+                                        type: string
+                              id:
+                                title: id
+                                type: string
+                              type:
+                                title: type
+                                type: string
+                        name:
+                          title: name
+                          type: string
+                        report_type:
+                          title: report_type
+                          type: string
+                        template:
+                          title: template
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              data:
+                                title: data
+                                type: object
+                                properties:
+                                  attributes:
+                                    title: attributes
+                                    type: object
+                                    properties:
+                                      filters:
+                                        title: filters
+                                        type: object
+                                      report_type:
+                                        title: report_type
+                                        type: string
+                                  type:
+                                    title: type
+                                    type: string
+                                    default: custom_report_request
+                    type:
+                      title: type
+                      type: string
+                      example: custom_report_retrieve
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+    post:
+      operationId: v1_reports_custom-reports_create
+      summary: Triggers the generation of a custom report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a custom report and returns information about the triggered report-generation job.
+
+
+        This request can be made once per user per 10-minute interval. The same user calling this endpoint more than once in 10 minutes receives an HTTP 429 TOO_MANY_REQUESTS response along with a Retry-After header. This header includes how long you must wait before sending another request.
+
+
+        To see a payload example, you can call the same endpoint with the GET method. With the GET method, the request retrieves the list of available custom reports. The "template" field contains a list of the components of the request payload you can use to format the report data.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    filters:
+                      title: filters
+                      type: object
+                    report_type:
+                      title: report_type
+                      type: string
+                type:
+                  title: type
+                  type: string
+                  example: custom_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: training_plan_content_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/exam-answers/:
+    parameters: []
+    post:
+      operationId: v1_reports_exam-answers_create
+      summary: Triggers the generation of exam answers report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of exam answers report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required:
+                  - content_id
+                  type: object
+                  properties:
+                    content_id:
+                      title: content_id
+                      description: UUID of the exam
+                      type: string
+                type:
+                  title: type
+                  type: string
+                  example: exam_answers_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: exam_answers_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/hourly-time-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_hourly-time-export_create
+      summary: Triggers the generation of Hourly Time report
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of Hourly Time report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+        Please take a look at the ''model'' description of the data to know which parameters are mandatory and which are not.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Required]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Required]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: hourly_time_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: hourly_time_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/inactive-members/:
+    parameters: []
+    post:
+      operationId: v1_reports_inactive-members_create
+      summary: Triggers the generation of inactive members report
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of inactive members report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                type:
+                  title: type
+                  type: string
+                  example: inactive_members_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: inactive_members_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/jobs/:
+    parameters: []
+    get:
+      operationId: v1_reports_jobs_list
+      summary: Retrieves all the available report jobs belonging to the current user
+      description: '
+
+        ## Description
+
+
+        This endpoint provides information about the jobs belonging to the current user.
+
+
+        By default the API returns all the jobs in WAITING or IN PROGRESS status. You can retrieve jobs in other statuses by setting the right filter.
+
+        '
+      parameters:
+      - name: status
+        in: query
+        description: Report Job Status
+        required: false
+        type: string
+        enum:
+        - completed
+        - failed
+        - in_progress
+        - waiting
+      responses:
+        '200':
+          description: Jobs Properly Found
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        job_id:
+                          title: job_id
+                          type: string
+                        report_type:
+                          title: report_type
+                          type: string
+                        requested_by:
+                          title: requested_by
+                          type: integer
+                        status:
+                          title: status
+                          type: string
+                        submission_date:
+                          title: submission_date
+                          type: string
+                          format: date-time
+                    type:
+                      title: type
+                      type: string
+                      example: report_job
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Report job not found
+          examples:
+            body:
+              errors:
+              - detail: Not found.
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/jobs/{id}/:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+    get:
+      operationId: v1_reports_jobs_read
+      summary: Retrieves detailed information about the given report job
+      description: '
+
+        ## Description
+
+
+        This endpoint provides information about the status and data of the report job UUID provided in the path.
+
+
+        If the required job does not exist or belongs to someone else, other than the current user, a 404 response is returned.
+
+
+        The ID provided in the path must be a valid UUID.
+
+        '
+      parameters: []
+      responses:
+        '200':
+          description: Job Properly Found
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: report_job
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Report job not found
+          examples:
+            body:
+              errors:
+              - detail: Not found.
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/learning-path-content/:
+    parameters: []
+    post:
+      operationId: v1_reports_learning-path-content_create
+      summary: Triggers the generation of a learning path content report [DEPRECATED]
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a learning path content report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        This API is deprecated: please use /v2/reports/course-content/ instead.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: learning_path_content_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: learning_path_content_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v1/reports/lp-progress-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_lp-progress-export_create
+      summary: Triggers the generation of Learning Path Progress report [DEPRECATED]
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of Learning Path Progress report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+
+        This report replaces the deprecated consumption-learning-paths report.
+
+        This API is deprecated: please use /v2/reports/course-progress-export/ instead.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: lp_progress_export_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: lp_progress_export_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v1/reports/members-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_members-export_create
+      summary: Triggers the generation of a members report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a members report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: members_export_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: members_export_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/programs-content/:
+    parameters: []
+    post:
+      operationId: v1_reports_programs-content_create
+      summary: Triggers the generation of programs content report [DEPRECATED]
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of programs content report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        This API is deprecated: please use /v2/reports/programs-content/ instead.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: programs_content_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: programs_content_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v1/reports/programs-progress/:
+    parameters: []
+    post:
+      operationId: v1_reports_programs-progress_create
+      summary: Triggers the generation of programs progress report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of programs progress report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request. If you provide start date and/or end date, the report will be generated for the given period by applying the filters on the last activity date.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: programs_progress_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: programs_progress_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/smart-skills-scores-export/:
+    parameters: []
+    post:
+      operationId: v1_reports_smart-skills-scores-export_create
+      summary: Triggers the generation of Smart Skills Scores Report
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of Smart Skills Scores Report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+        Please take a look at the ''model'' description of the data to know which parameters are mandatory and which are not.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: smart_skills_scores_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: smart_skills_scores_report_request
+        '403':
+          description: Not permitted to view report details
+          examples:
+            body:
+              errors:
+              - detail: You don't have the permissions to access this API.
+                source:
+                  pointer: /data
+                status: '403'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/team-memberships/:
+    parameters: []
+    post:
+      operationId: v1_reports_team-memberships_create
+      summary: Triggers the generation of a team memberships report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a team memberships report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: team_memberships_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: team_memberships_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/training-plan-content/:
+    parameters: []
+    post:
+      operationId: v1_reports_training-plan-content_create
+      summary: Triggers the generation of a training plan content report [DEPRECATED]
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a training plan content report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        This API is deprecated: please use /v2/reports/training-plan-content/ instead.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: training_plan_content_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: training_plan_content_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v1/reports/training-plan-progress/:
+    parameters: []
+    post:
+      operationId: v1_reports_training-plan-progress_create
+      summary: Triggers the generation of a training plan progress report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a training plan progress report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request. If you provide start date and/or end date, the report will be generated for the given period by applying the filters on the last activity date.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: training_plan_progress_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: training_plan_progress_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v1/reports/user-activity/:
+    parameters: []
+    post:
+      operationId: v1_reports_user-activity_create
+      summary: Triggers the generation of Member Activity report [DEPRECATED]
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of Member Activity report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        This report replaces the deprecated company-usage, team-usage, and user-usage reports. These reports will be removed July 31, 2023.
+
+        This API is deprecated: please use /v2/reports/user-activity/ instead.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Required]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Required]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: user_activity_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: user_activity_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v1/reports/user-skills/:
+    parameters: []
+    post:
+      operationId: v1_reports_user-skills_create
+      summary: Triggers the generation of a user skills report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a user skills report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: user_skills_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: user_skills_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v2/reports/content-progress/:
+    parameters: []
+    post:
+      operationId: v2_reports_content-progress_create
+      summary: Triggers the generation of Content Progress report
+      description: "\n## Description\nThis endpoint triggers the generation of Content Progress report, returning information about the triggered report generation job.\nOne request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.\nSince all parameters are optional, the payload is not mandatory therefore you can send an empty request. If you provide start date and/or end date, the report will be generated for the given period by applying the filters on the last activity date.\n\nThis report replaces the deprecated consumption-content report.\nThis API replaces /v1/reports/content-progress/ to adhere to the new content terminology. The functionality remains the same. \n"
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    content_statuses:
+                      title: content_statuses
+                      description: '[Optional] Max Length 10'
+                      type: array
+                      items: string
+                    end_date:
+                      title: end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    is_public:
+                      title: is_public
+                      description: '[Optional]'
+                      type: boolean
+                    only_completed_content:
+                      title: only_completed_content
+                      description: '[Optional]'
+                      type: boolean
+                    only_current_members:
+                      title: only_current_members
+                      description: '[Optional]'
+                      type: boolean
+                    start_date:
+                      title: start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: content_progress_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: content_progress_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v2/reports/content-skills-export/:
+    parameters: []
+    post:
+      operationId: v2_reports_content-skills-export_create
+      summary: Triggers the generation of content skills report; retrieves skills relating to a content
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of content skills report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        This API replaces /v1/reports/content-skills-export/ to adhere to the new content terminology. The functionality remains the same.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: content_skills_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: content_skills_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v2/reports/course-content/:
+    parameters: []
+    post:
+      operationId: v2_reports_course-content_create
+      summary: Triggers the generation of a course content report [DEPRECATED]
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of a course content report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        This API replaces /v1/reports/learning-path-content/ to adhere to the new content terminology. The functionality remains the same.
+
+        This API is deprecated: please use /v3/reports/course-content/ instead: it replaces internal ids by UUIDs. The functionality remains the same.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: course_content_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: course_content_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+      deprecated: true
+  /v2/reports/course-progress-export/:
+    parameters: []
+    post:
+      operationId: v2_reports_course-progress-export_create
+      summary: Triggers the generation of Course Progress report
+      description: "\n## Description\nThis endpoint triggers the generation of Course Progress report, returning information about the triggered report generation job.\nOne request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.\nSince all parameters are optional, the payload is not mandatory therefore you can send an empty request. If you provide start date and/or end date, the report will be generated for the given period by applying the filters on the last activity date. \n\nThis report replaces the deprecated consumption-learning-paths report.\nThis API replaces /v1/reports/lp-progress-export/ to adhere to the new content terminology. The functionality remains the same.\n"
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    content_statuses:
+                      title: content_statuses
+                      description: '[Optional] Max Length 10'
+                      type: array
+                      items: string
+                    end_date:
+                      title: end_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    is_public:
+                      title: is_public
+                      description: '[Optional]'
+                      type: boolean
+                    only_completed_content:
+                      title: only_completed_content
+                      description: '[Optional]'
+                      type: boolean
+                    only_current_members:
+                      title: only_current_members
+                      description: '[Optional]'
+                      type: boolean
+                    start_date:
+                      title: start_date
+                      description: '[Optional]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: course_progress_export_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: course_progress_export_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v2/reports/programs-content/:
+    parameters: []
+    post:
+      operationId: v2_reports_programs-content_create
+      summary: Triggers the generation of programs content report
+      description: '
+
+        ## Description
+
+
+        This endpoint triggers the generation of programs content report, returning information about the triggered report generation job.
+
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        Since all parameters are optional, the payload is not mandatory therefore you can send an empty request.
+
+        This API replaces /v1/reports/programs-content/ to adhere to the new content terminology. The functionality remains the same.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: programs_content_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: programs_content_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v2/reports/training-plan-content/:
+    parameters: []
+    post:
+      operationId: v2_reports_training-plan-content_create
+      summary: Triggers the generation of a training plan content report
+      description: "\n## Description\n\nThis endpoint triggers the generation of a training plan content report, returning information about the triggered report generation job.\n\nOne request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.\n\nSince all parameters are optional, the payload is not mandatory therefore you can send an empty request.\nThis API replaces /v1/reports/training-plan-content/ to adhere to the new content terminology. The functionality remains the same. \n"
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: training_plan_content_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: training_plan_content_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v2/reports/user-activity/:
+    parameters: []
+    post:
+      operationId: v2_reports_user-activity_create
+      summary: Triggers the generation of Member Activity report
+      description: '
+
+        ## Description
+
+        This endpoint triggers the generation of Member Activity report, returning information about the triggered report generation job.
+
+        One request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.
+
+
+        This report replaces the deprecated company-usage, team-usage, and user-usage reports. These reports will be removed July 31, 2023.
+
+        This API replaces /v1/reports/user-activity/ to adhere to the new content terminology. The functionality remains the same.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties:
+                    end_date:
+                      title: end_date
+                      description: '[Required]'
+                      type: string
+                      format: date-time
+                    start_date:
+                      title: start_date
+                      description: '[Required]'
+                      type: string
+                      format: date-time
+                    team_ids:
+                      title: team_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: integer
+                    user_ids:
+                      title: user_ids
+                      description: '[Optional] Max Length 200'
+                      type: array
+                      items: string
+                type:
+                  title: type
+                  type: string
+                  example: user_activity_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: user_activity_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+  /v3/reports/course-content/:
+    parameters: []
+    post:
+      operationId: v3_reports_course-content_create
+      summary: Triggers the generation of a course content report
+      description: "\n## Description\n\nThis endpoint triggers the generation of a course content report, returning information about the triggered report generation job.\n\nOne request can be made every 10 minutes per user. If you call this endpoint more than this, you will get an HTTP 429 TOO_MANY_REQUESTS response, with a Retry-After header. This header will provide the remaining time to wait.\n\nSince all parameters are optional, the payload is not mandatory therefore you can send an empty request.\nThis API replaces /v2/reports/course-content/ avoiding to use internal ids replaced by UUIDs. The functionality remains the same. \n"
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required: []
+                  type: object
+                  properties: {}
+                type:
+                  title: type
+                  type: string
+                  example: course_content_uuid_report_request
+      responses:
+        '201':
+          description: Jobs Properly Generated
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      job_id:
+                        title: job_id
+                        type: string
+                      report_type:
+                        title: report_type
+                        type: string
+                      requested_by:
+                        title: requested_by
+                        type: integer
+                      status:
+                        title: status
+                        type: string
+                      submission_date:
+                        title: submission_date
+                        type: string
+                        format: date-time
+                  type:
+                    title: type
+                    type: string
+                    example: course_content_uuid_report_request
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Reports
+securityDefinitions:
+  oauth2:
+    authorizationUrl: https://platform.qa.com/oauth2/authorize/
+    description: Insert your API key pair.<br/><br/>Enterprise members with Admin permissions can generate and view their own API keys on the settings area of their Company Account [here](https://platform.qa.com/organizations/settings/api/).
+    flow: application
+    tokenUrl: https://platform.qa.com/oauth2/token/
+    type: oauth2

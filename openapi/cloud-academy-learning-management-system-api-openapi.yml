@@ -1,0 +1,1908 @@
+swagger: '2.0'
+info:
+  title: QA Learning Management System API
+  description: "\n## Keys for QA API\n\nQA uses API keys to authenticate calls to its API.\n\nThe Authentication used is OAuth2 with client credential flow; Note that the SSL channel securely encrypts your keys pair.\n\n## How to find or generate Your API Key\n\nFor integrating with the QA API, you need to generate an API key pairs. Enterprise members with Admin permissions can generate and view their own API keys on the settings area of their Company Account [here](https://platform.qa.com/organizations/settings/api/).\n\nNote that each admin comes with his distinct API keys pair.\n\n## Revoking and Regenerating an API keys pair\n\nAt any time, an admin can generate new API keys pairs; by going through this step, the previous keys pair is revoked.\n\n## How to authenticate API calls using the keys pair\n\nIn order to authenticate API calls each request needs to provide a valid access token. \n\nTo generate a token, a dedicated endpoint exists:\n\n__https://platform.qa.com/oauth2/token/__\n\nThe token generation endpoint accepts a POST call and works using Basic Authentication where the user and the password to be provided are the API keys:\n\nusername is the CLIENT_ID\npassword is the CLIENT_SECRET\n\nIn addition to requiring the CLIENT_ID and CLIENT_SECRET for the authorization header, the API also requires the content-type to be set to 'application/x-www-form-urlencoded' and the body must contain 'grant_type=client_credentials'.\n\nThis is an example of the token generation in cURL:\n\n```bash\ncurl 'https://platform.qa.com/oauth2/token/' \n  -H 'accept: application/json'\n  -H 'authorization: Basic [YOUR_CLIENT_ID:YOUR_CLIENT_SECRET]'\n  -H 'content-type: application/x-www-form-urlencoded'\n  --data-raw 'grant_type=client_credentials'\n```\n\nThe token has a limited duration of 10 hours, so it could be cached to be reused and renewed when it expires, but it is also perfectly fine to generate a new one before each API call.\n\n## Get Help\nIn case of issues, more info can be found in the following [article](https://support.cloudacademy.com/hc/en-us/articles/360040446031-Cloud-Academy-API)\n"
+  version: v1
+host: platform.qa.com
+basePath: /restapi
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+security:
+- oauth2: []
+tags:
+- name: Learning Management System
+paths:
+  /v1/content/catalog/:
+    parameters: []
+    get:
+      operationId: v1_content_catalog_list
+      summary: Access the QA Platform content catalog, with pagination [DEPRECATED]
+      description: '
+
+        ## Description
+
+        This API returns a catalog of the items in the QA Platform library, including the custom content your company created in Content Engine.
+
+        This API is deprecated: please use /v2/content/catalog/ instead.
+
+        '
+      parameters:
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: filter[content_type]
+        in: query
+        description: '[Optional] A comma-separated list of content types to limit the returned catalog.
+
+          Here the possible values:
+
+          - lp
+
+          - course
+
+          - quiz
+
+          - exam
+
+          - resource
+
+          - lab
+
+          - labchallenge
+
+
+
+          e.g.: https://...&filter[content_type]=course,labchallenge'
+        type: string
+      - name: additional_fields
+        in: query
+        description: '[Optional] A comma-separated list of additional fields that can be shown in the catalog.
+
+          Please note: using these parameters can affect performances.
+
+          Here the possible values:
+
+          - description: represents the full description of the content
+
+          - skills: this will includes information about platforms and skills related to the content
+
+
+          e.g.: https://...&additional_fields=skills,description'
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  - id
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        items:
+                          title: items
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              content_type:
+                                title: content_type
+                                type: string
+                              content_type_label:
+                                title: content_type_label
+                                type: string
+                              description:
+                                title: description
+                                type: string
+                              difficulty_level:
+                                title: difficulty_level
+                                type: string
+                              duration:
+                                title: duration
+                                type: number
+                              entity_id:
+                                title: entity_id
+                                type: string
+                              platforms:
+                                title: platforms
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      title: id
+                                      type: number
+                                    name:
+                                      title: name
+                                      type: string
+                              publish_date:
+                                title: publish_date
+                                type: string
+                                format: date-time
+                              short_description:
+                                title: short_description
+                                type: string
+                              skills:
+                                title: skills
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      title: id
+                                      type: number
+                                    name:
+                                      title: name
+                                      type: string
+                                    slug:
+                                      title: slug
+                                      type: string
+                              title:
+                                title: title
+                                type: string
+                              url:
+                                title: url
+                                type: string
+                    id:
+                      title: id
+                      type: string
+                    links:
+                      title: links
+                      type: object
+                      properties:
+                        self:
+                          title: schema
+                          type: string
+                          format: uri
+                    type:
+                      title: type
+                      type: string
+                      example: catalog
+              links:
+                title: links
+                type: object
+                properties:
+                  first:
+                    title: first
+                    type: string
+                    format: uri
+                  last:
+                    title: last
+                    type: string
+                    format: uri
+                  next:
+                    title: next
+                    type: string
+                    format: uri
+                  prev:
+                    title: prev
+                    type: string
+                    format: uri
+              meta:
+                title: meta
+                type: object
+                properties:
+                  pagination:
+                    title: pagination
+                    type: object
+                    properties:
+                      count:
+                        title: count
+                        type: integer
+                        format: int32
+                      page:
+                        title: page
+                        type: integer
+                        format: int32
+                      pages:
+                        title: pages
+                        type: integer
+                        format: int32
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Catalog not found
+          examples:
+            body:
+              errors:
+              - detail: Searched catalog does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v1/content/entity/:
+    parameters: []
+    get:
+      operationId: v1_content_get_entity
+      summary: Access to a specific QA Platform content [DEPRECATED]
+      description: '
+
+        ## Description
+
+        This API returns a specific content of the QA Platform library.
+
+        This API is deprecated: please use /v2/content/entity/ instead.
+
+        '
+      parameters:
+      - name: filter[uuid]
+        in: query
+        description: uuid of the content
+        required: true
+        type: string
+      - name: filter[content_type]
+        in: query
+        description: '[Optional] Limit the search on the given content type.
+
+          Here the possible values (you can pick only one):
+
+          - lp
+
+          - course
+
+          - quiz
+
+          - exam
+
+          - resource
+
+          - lab
+
+          - labchallenge
+
+
+
+          e.g.: https://...&filter[content_type]=course,labchallenge'
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                - id
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      content_type:
+                        title: entity_type
+                        type: string
+                      content_type_label:
+                        title: content_type_label
+                        type: string
+                      description:
+                        title: description
+                        type: string
+                      difficulty_level:
+                        title: difficulty_level
+                        type: string
+                      duration:
+                        title: duration
+                        type: number
+                      entity_id:
+                        title: entity_id
+                        type: string
+                      platforms:
+                        title: platforms
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              title: id
+                              type: number
+                            name:
+                              title: name
+                              type: string
+                      publish_date:
+                        title: publish_date
+                        type: string
+                        format: date-time
+                      short_description:
+                        title: short_description
+                        type: string
+                      skills:
+                        title: skills
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              title: id
+                              type: number
+                            name:
+                              title: name
+                              type: string
+                            slug:
+                              title: slug
+                              type: string
+                      title:
+                        title: title
+                        type: string
+                      url:
+                        title: url
+                        type: string
+                  id:
+                    title: id
+                    type: string
+                  links:
+                    title: links
+                    type: object
+                    properties:
+                      self:
+                        title: schema
+                        type: string
+                        format: uri
+                  type:
+                    title: type
+                    type: string
+                    example: content
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Content not found
+          examples:
+            body:
+              errors:
+              - detail: Searched content does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v2/company/progress/:
+    parameters: []
+    get:
+      operationId: v2_company_progress_list
+      summary: Retrieve content progress for your organization member by member
+      description: "\n## Description\nThis API will return a list of the members of the company with a link with their own progress.\nThe API does not apply any default pagination. Thus, `links` and `meta` keys in the response are optional and will appear only if a pagination is explicitly applied.  \nNote: Please bear in mind that the data retrieved is updated every hour and not in real time.\n"
+      parameters:
+      - name: filter[first_name]
+        in: query
+        description: ''
+        required: false
+        type: string
+      - name: filter[first_name__in]
+        in: query
+        description: Multiple values may be separated by commas.
+        required: false
+        type: string
+      - name: filter[last_name]
+        in: query
+        description: ''
+        required: false
+        type: string
+      - name: filter[last_name__in]
+        in: query
+        description: Multiple values may be separated by commas.
+        required: false
+        type: string
+      - name: filter[email]
+        in: query
+        description: ''
+        required: false
+        type: string
+      - name: filter[email__in]
+        in: query
+        description: Multiple values may be separated by commas.
+        required: false
+        type: string
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        required: false
+        type: string
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  - id
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        email:
+                          title: email
+                          type: string
+                          format: email
+                        first_name:
+                          title: first_name
+                          type: string
+                        last_name:
+                          title: last_name
+                          type: string
+                    id:
+                      title: id
+                      type: string
+                    links:
+                      title: links
+                      type: object
+                      properties:
+                        self:
+                          title: schema
+                          type: string
+                          format: uri
+                    type:
+                      title: type
+                      type: string
+                      example: company_membership_progress
+              links:
+                title: links
+                type: object
+                properties:
+                  first:
+                    title: first
+                    type: string
+                    format: uri
+                  last:
+                    title: last
+                    type: string
+                    format: uri
+                  next:
+                    title: next
+                    type: string
+                    format: uri
+                  prev:
+                    title: prev
+                    type: string
+                    format: uri
+              meta:
+                title: meta
+                type: object
+                properties:
+                  pagination:
+                    title: pagination
+                    type: object
+                    properties:
+                      count:
+                        title: count
+                        type: integer
+                        format: int32
+                      page:
+                        title: page
+                        type: integer
+                        format: int32
+                      pages:
+                        title: pages
+                        type: integer
+                        format: int32
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v2/content/catalog/:
+    parameters: []
+    get:
+      operationId: v2_content_catalog_list
+      summary: Access the QA Platform content catalog, with pagination
+      description: "\n## Description\nThis API returns a catalog of the items in the QA Platform library, including the custom content your company created in Content Engine.\nThis API replaces /v1/content/catalog/ to adhere to the new content terminology. The functionality remains the same. \n"
+      parameters:
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: filter[content_type]
+        in: query
+        description: '[Optional] A comma-separated list of content types to limit the returned catalog.
+
+          Here the possible values:
+
+          - course
+
+          - lesson
+
+          - quiz
+
+          - exam
+
+          - resource
+
+          - lab
+
+          - labchallenge
+
+
+
+          e.g.: https://...&filter[content_type]=lesson,labchallenge'
+        type: string
+      - name: filter[content_status]
+        in: query
+        description: '[Optional] A comma-separated list of content statuses to limit the returned catalog.
+
+          Here the possible values:
+
+          - archived
+
+          - outdated
+
+          - published
+
+          - unpublished
+
+          - draft
+
+
+
+          e.g.: https://...&filter[content_status]=published,outdated'
+        type: string
+      - name: filter[is_public]
+        in: query
+        description: '[Optional] A boolean flag to limit the returned catalog to public or non-public content. If omitted, both are returned.
+
+          Here the possible values:
+
+          - true
+
+          - false
+
+
+
+          e.g.: https://...&filter[is_public]=true'
+        type: boolean
+      - name: additional_fields
+        in: query
+        description: '[Optional] A comma-separated list of additional fields that can be shown in the catalog.
+
+          Please note: using these parameters can affect performances.
+
+          Here the possible values:
+
+          - description: represents the full description of the content
+
+          - skills: this will includes information about platforms and skills related to the content
+
+
+          - content_status: represents the status of the content
+
+
+          - is_public: tells if content is public or not
+
+
+          e.g.: https://...&additional_fields=skills,description,content_status,is_public'
+        type: string
+      - name: filter[publish_date_gte]
+        in: query
+        description: '[Optional] Publish date of the content greater than or equal to the given date-time value.
+
+          '
+        type: string
+        format: date-time
+      - name: filter[publish_date_lte]
+        in: query
+        description: '[Optional] Publish date of the content less than or equal to the given date-time value.
+
+          '
+        type: string
+        format: date-time
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  - id
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        items:
+                          title: items
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              content_status:
+                                title: content_status
+                                type: string
+                              content_type:
+                                title: content_type
+                                type: string
+                              content_type_label:
+                                title: content_type_label
+                                type: string
+                              description:
+                                title: description
+                                type: string
+                              difficulty_level:
+                                title: difficulty_level
+                                type: string
+                              duration:
+                                title: duration
+                                type: number
+                              entity_id:
+                                title: entity_id
+                                type: string
+                              image_url:
+                                title: image_url
+                                type: string
+                              is_public:
+                                title: is_public
+                                type: boolean
+                              platforms:
+                                title: platforms
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      title: id
+                                      type: number
+                                    name:
+                                      title: name
+                                      type: string
+                              publish_date:
+                                title: publish_date
+                                type: string
+                                format: date-time
+                              short_description:
+                                title: short_description
+                                type: string
+                              skills:
+                                title: skills
+                                type: array
+                                items:
+                                  type: object
+                                  properties:
+                                    id:
+                                      title: id
+                                      type: number
+                                    name:
+                                      title: name
+                                      type: string
+                                    slug:
+                                      title: slug
+                                      type: string
+                              title:
+                                title: title
+                                type: string
+                              url:
+                                title: url
+                                type: string
+                    id:
+                      title: id
+                      type: string
+                    links:
+                      title: links
+                      type: object
+                      properties:
+                        self:
+                          title: schema
+                          type: string
+                          format: uri
+                    type:
+                      title: type
+                      type: string
+                      example: catalog
+              links:
+                title: links
+                type: object
+                properties:
+                  first:
+                    title: first
+                    type: string
+                    format: uri
+                  last:
+                    title: last
+                    type: string
+                    format: uri
+                  next:
+                    title: next
+                    type: string
+                    format: uri
+                  prev:
+                    title: prev
+                    type: string
+                    format: uri
+              meta:
+                title: meta
+                type: object
+                properties:
+                  pagination:
+                    title: pagination
+                    type: object
+                    properties:
+                      count:
+                        title: count
+                        type: integer
+                        format: int32
+                      page:
+                        title: page
+                        type: integer
+                        format: int32
+                      pages:
+                        title: pages
+                        type: integer
+                        format: int32
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Catalog not found
+          examples:
+            body:
+              errors:
+              - detail: Searched catalog does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v2/content/entity/:
+    parameters: []
+    get:
+      operationId: v2_content_get_entity
+      summary: Access to a specific QA Platform content
+      description: '
+
+        ## Description
+
+        This API returns a specific content of the QA Platform library.
+
+        This API replaces /v1/content/entity/ to adhere to the new content terminology. The functionality remains the same.
+
+        '
+      parameters:
+      - name: filter[uuid]
+        in: query
+        description: uuid of the content
+        required: true
+        type: string
+      - name: filter[content_type]
+        in: query
+        description: '[Optional] Limit the search on the given content type.
+
+          Here the possible values (you can pick only one):
+
+          - course
+
+          - lesson
+
+          - quiz
+
+          - exam
+
+          - resource
+
+          - lab
+
+          - labchallenge
+
+
+
+          e.g.: https://...&filter[content_type]=course,labchallenge'
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                - id
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      content_type:
+                        title: entity_type
+                        type: string
+                      content_type_label:
+                        title: content_type_label
+                        type: string
+                      description:
+                        title: description
+                        type: string
+                      difficulty_level:
+                        title: difficulty_level
+                        type: string
+                      duration:
+                        title: duration
+                        type: number
+                      entity_id:
+                        title: entity_id
+                        type: string
+                      image_url:
+                        title: image_url
+                        type: string
+                      is_public:
+                        title: is_public
+                        type: boolean
+                      platforms:
+                        title: platforms
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              title: id
+                              type: number
+                            name:
+                              title: name
+                              type: string
+                      publish_date:
+                        title: publish_date
+                        type: string
+                        format: date-time
+                      short_description:
+                        title: short_description
+                        type: string
+                      skills:
+                        title: skills
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            id:
+                              title: id
+                              type: number
+                            name:
+                              title: name
+                              type: string
+                            slug:
+                              title: slug
+                              type: string
+                      slug:
+                        title: slug
+                        type: string
+                      status:
+                        title: status
+                        type: string
+                      title:
+                        title: title
+                        type: string
+                      url:
+                        title: url
+                        type: string
+                  id:
+                    title: id
+                    type: string
+                  links:
+                    title: links
+                    type: object
+                    properties:
+                      self:
+                        title: schema
+                        type: string
+                        format: uri
+                  type:
+                    title: type
+                    type: string
+                    example: content
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Content not found
+          examples:
+            body:
+              errors:
+              - detail: Searched content does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v2/user/progress/:
+    parameters: []
+    get:
+      operationId: v2_user_progress_list
+      summary: Show the progress of the currently logged in user [DEPRECATED]
+      description: '
+
+        ## Description
+
+        This endpoint is a simplified version of the */user/{user_id}/progress*
+
+        that retrieves the progress for the currently logged in user.
+
+        Note: Please bear in mind that the data retrieved is updated every hour and not in real time.
+
+        This API is deprecated: please use /v3/user/progress/ instead.
+
+        '
+      parameters:
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        type: string
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: filter[progress]
+        in: query
+        type: integer
+      - name: filter[progress__lt]
+        in: query
+        type: integer
+      - name: filter[progress__lte]
+        in: query
+        type: integer
+      - name: filter[progress__gt]
+        in: query
+        type: integer
+      - name: filter[progress__gte]
+        in: query
+        type: integer
+      - name: filter[first_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_success_rate]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lte]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gte]
+        in: query
+        type: integer
+      - name: filter[is_passed_once]
+        in: query
+        type: boolean
+      - name: filter[entity_type]
+        in: query
+        description: 'Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Learning Path, Resource, Quiz, Exam'
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        entity_id:
+                          title: entity_id
+                          type: string
+                        entity_name:
+                          title: entity_name
+                          type: string
+                        entity_type:
+                          title: entity_type
+                          type: string
+                        first_activity_date:
+                          title: first_activity_date
+                          type: string
+                          format: date-time
+                        is_passed_once:
+                          title: is_passed_once
+                          type: boolean
+                        last_activity_date:
+                          title: last_activity_date
+                          type: string
+                          format: date-time
+                        last_success_rate:
+                          title: last_success_rate
+                          type: number
+                        progress:
+                          title: progress
+                          type: number
+                    type:
+                      title: type
+                      type: string
+                      example: resource_user_progress
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: User not found
+          examples:
+            body:
+              errors:
+              - detail: Searched user does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v2/user/{user_id}/progress/:
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      type: string
+    get:
+      operationId: v2_user_progress_detail
+      summary: Shows the progress of a specific user given their user_id [DEPRECATED]
+      description: "\n## Description\nYou must use the alphanumeric user_id as opposed to the deprecated numeric version. \nYou can find the alphanumeric user_id using the /v1/organizations/accounts/teams/{id}/members/ endpoint or in the Active and Invited Members report.\nAn enterprise member can view only their own progress.\nAn enterprise admin can also view the progress of any member of the company by passing their user_id.\nNote: Please bear in mind that the data retrieved is updated every hour and not in real time.\nThis API is deprecated: please use /v3/user/{user_id}/progress/ instead\n"
+      parameters:
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        type: string
+      - name: filter[progress]
+        in: query
+        type: integer
+      - name: filter[progress__lt]
+        in: query
+        type: integer
+      - name: filter[progress__lte]
+        in: query
+        type: integer
+      - name: filter[progress__gt]
+        in: query
+        type: integer
+      - name: filter[progress__gte]
+        in: query
+        type: integer
+      - name: filter[first_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_success_rate]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lte]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gte]
+        in: query
+        type: integer
+      - name: filter[is_passed_once]
+        in: query
+        type: boolean
+      - name: filter[entity_type]
+        in: query
+        description: 'Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Learning Path, Resource, Quiz, Exam'
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        entity_id:
+                          title: entity_id
+                          type: string
+                        entity_name:
+                          title: entity_name
+                          type: string
+                        entity_type:
+                          title: entity_type
+                          type: string
+                        first_activity_date:
+                          title: first_activity_date
+                          type: string
+                          format: date-time
+                        is_passed_once:
+                          title: is_passed_once
+                          type: boolean
+                        last_activity_date:
+                          title: last_activity_date
+                          type: string
+                          format: date-time
+                        last_success_rate:
+                          title: last_success_rate
+                          type: number
+                        progress:
+                          title: progress
+                          type: number
+                    type:
+                      title: type
+                      type: string
+                      example: resource_user_progress
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: User not found
+          examples:
+            body:
+              errors:
+              - detail: Searched user does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v3/user/progress/:
+    parameters: []
+    get:
+      operationId: v3_user_progress_list
+      summary: Show the progress of the currently logged in user
+      description: '
+
+        ## Description
+
+        This endpoint retrieves the progress for the currently logged in user.
+
+        Note: Please bear in mind that the data retrieved is updated every hour and not in real time.
+
+        This API replaces /v2/user/progress/ to adhere to the new content terminology. The functionality remains the same.
+
+        '
+      parameters:
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        type: string
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      - name: filter[progress]
+        in: query
+        type: integer
+      - name: filter[progress__lt]
+        in: query
+        type: integer
+      - name: filter[progress__lte]
+        in: query
+        type: integer
+      - name: filter[progress__gt]
+        in: query
+        type: integer
+      - name: filter[progress__gte]
+        in: query
+        type: integer
+      - name: filter[first_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_success_rate]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lte]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gte]
+        in: query
+        type: integer
+      - name: filter[is_passed_once]
+        in: query
+        type: boolean
+      - name: filter[entity_type]
+        in: query
+        description: 'Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Lesson, Resource, Quiz, Exam'
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        entity_id:
+                          title: entity_id
+                          type: string
+                        entity_name:
+                          title: entity_name
+                          type: string
+                        entity_type:
+                          title: entity_type
+                          type: string
+                        first_activity_date:
+                          title: first_activity_date
+                          type: string
+                          format: date-time
+                        is_passed_once:
+                          title: is_passed_once
+                          type: boolean
+                        last_activity_date:
+                          title: last_activity_date
+                          type: string
+                          format: date-time
+                        last_success_rate:
+                          title: last_success_rate
+                          type: number
+                        progress:
+                          title: progress
+                          type: number
+                    type:
+                      title: type
+                      type: string
+                      example: resource_user_progress
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: User not found
+          examples:
+            body:
+              errors:
+              - detail: Searched user does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+  /v3/user/{user_id}/progress/:
+    parameters:
+    - name: user_id
+      in: path
+      required: true
+      type: string
+    get:
+      operationId: v3_user_progress_detail
+      summary: Shows the progress of a specific user given their user_id
+      description: "\n## Description\nYou must use the alphanumeric user_id as opposed to the deprecated numeric version. \nYou can find the alphanumeric user_id using the /v1/organizations/accounts/teams/{id}/members/ endpoint or in the Active and Invited Members report.\nAn enterprise member can view only their own progress.\nAn enterprise admin can also view the progress of any member of the company by passing their user_id.\nNote: Please bear in mind that the data retrieved is updated every hour and not in real time.\nThis API replaces /v2/user/{user_id}/progress/ to adhere to the new content terminology. The functionality remains the same. \n"
+      parameters:
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        type: string
+      - name: filter[progress]
+        in: query
+        type: integer
+      - name: filter[progress__lt]
+        in: query
+        type: integer
+      - name: filter[progress__lte]
+        in: query
+        type: integer
+      - name: filter[progress__gt]
+        in: query
+        type: integer
+      - name: filter[progress__gte]
+        in: query
+        type: integer
+      - name: filter[first_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[first_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__lte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gt]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_activity_date__gte]
+        in: query
+        description: 'Supported formats: YYYY-mm-dd and YYYY/mm/dd'
+        type: string
+      - name: filter[last_success_rate]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__lte]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gt]
+        in: query
+        type: integer
+      - name: filter[last_success_rate__gte]
+        in: query
+        type: integer
+      - name: filter[is_passed_once]
+        in: query
+        type: boolean
+      - name: filter[entity_type]
+        in: query
+        description: 'Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Lesson, Resource, Quiz, Exam'
+        type: string
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        entity_id:
+                          title: entity_id
+                          type: string
+                        entity_name:
+                          title: entity_name
+                          type: string
+                        entity_type:
+                          title: entity_type
+                          type: string
+                        first_activity_date:
+                          title: first_activity_date
+                          type: string
+                          format: date-time
+                        is_passed_once:
+                          title: is_passed_once
+                          type: boolean
+                        last_activity_date:
+                          title: last_activity_date
+                          type: string
+                          format: date-time
+                        last_success_rate:
+                          title: last_success_rate
+                          type: number
+                        progress:
+                          title: progress
+                          type: number
+                    type:
+                      title: type
+                      type: string
+                      example: resource_user_progress
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: User not found
+          examples:
+            body:
+              errors:
+              - detail: Searched user does not exist
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Learning Management System
+securityDefinitions:
+  oauth2:
+    authorizationUrl: https://platform.qa.com/oauth2/authorize/
+    description: Insert your API key pair.<br/><br/>Enterprise members with Admin permissions can generate and view their own API keys on the settings area of their Company Account [here](https://platform.qa.com/organizations/settings/api/).
+    flow: application
+    tokenUrl: https://platform.qa.com/oauth2/token/
+    type: oauth2

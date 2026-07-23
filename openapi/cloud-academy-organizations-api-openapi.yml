@@ -1,0 +1,1438 @@
+swagger: '2.0'
+info:
+  title: QA Learning Management System Organizations API
+  description: "\n## Keys for QA API\n\nQA uses API keys to authenticate calls to its API.\n\nThe Authentication used is OAuth2 with client credential flow; Note that the SSL channel securely encrypts your keys pair.\n\n## How to find or generate Your API Key\n\nFor integrating with the QA API, you need to generate an API key pairs. Enterprise members with Admin permissions can generate and view their own API keys on the settings area of their Company Account [here](https://platform.qa.com/organizations/settings/api/).\n\nNote that each admin comes with his distinct API keys pair.\n\n## Revoking and Regenerating an API keys pair\n\nAt any time, an admin can generate new API keys pairs; by going through this step, the previous keys pair is revoked.\n\n## How to authenticate API calls using the keys pair\n\nIn order to authenticate API calls each request needs to provide a valid access token. \n\nTo generate a token, a dedicated endpoint exists:\n\n__https://platform.qa.com/oauth2/token/__\n\nThe token generation endpoint accepts a POST call and works using Basic Authentication where the user and the password to be provided are the API keys:\n\nusername is the CLIENT_ID\npassword is the CLIENT_SECRET\n\nIn addition to requiring the CLIENT_ID and CLIENT_SECRET for the authorization header, the API also requires the content-type to be set to 'application/x-www-form-urlencoded' and the body must contain 'grant_type=client_credentials'.\n\nThis is an example of the token generation in cURL:\n\n```bash\ncurl 'https://platform.qa.com/oauth2/token/' \n  -H 'accept: application/json'\n  -H 'authorization: Basic [YOUR_CLIENT_ID:YOUR_CLIENT_SECRET]'\n  -H 'content-type: application/x-www-form-urlencoded'\n  --data-raw 'grant_type=client_credentials'\n```\n\nThe token has a limited duration of 10 hours, so it could be cached to be reused and renewed when it expires, but it is also perfectly fine to generate a new one before each API call.\n\n## Get Help\nIn case of issues, more info can be found in the following [article](https://support.cloudacademy.com/hc/en-us/articles/360040446031-Cloud-Academy-API)\n"
+  version: v1
+host: platform.qa.com
+basePath: /restapi
+schemes:
+- https
+consumes:
+- application/json
+produces:
+- application/json
+security:
+- oauth2: []
+tags:
+- name: Organizations
+paths:
+  /v1/organizations/accounts/members/:
+    parameters: []
+    delete:
+      operationId: v1_organizations_accounts_members
+      summary: Remove members from the company
+      description: '
+
+        ## Description
+
+
+        This endpoint removes members from a company in a single operation.
+
+        Given a list of emails, it removes all members from the company.
+
+
+        In case of errors, like wrong email or already deleted members, the request is discarded and no member is deleted.
+
+        We suggest to use maximum 25 users per request.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required:
+                  - email_list
+                  type: object
+                  properties:
+                    email_list:
+                      title: email_list
+                      type: array
+                      items:
+                        type: string
+                        format: email
+                type:
+                  title: type
+                  type: string
+                  example: bulk_member_remove
+      responses:
+        '400':
+          description: Bad request, incorrect email address or the user does not belong to this company.
+          examples:
+            body:
+              errors:
+              - detail: 'invalid-member-deletion: user@email.com'
+                source:
+                  pointer: /data
+                status: '400'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '409':
+          description: Missing JSON-API type attribute.
+          examples:
+            body:
+              errors:
+              - detail: The resource object's type (None) is not the type that constitute the collection represented by the endpoint (bulk_member_remove).
+                source:
+                  pointer: /data
+                status: '409'
+        '204':
+          description: Members have been removed from the company.
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+  /v1/organizations/accounts/teams/:
+    parameters: []
+    get:
+      operationId: v1_organizations_accounts_teams_list
+      summary: List all teams
+      description: '
+
+        ## Description
+
+
+        This endpoint returns a list that contains all teams of the company.
+
+
+
+        ## Sorting
+
+        It''s possible to sort on the following fields:
+
+
+        * name
+
+
+        By default results are ordered in ascending order, for descending descending put a ''-'' before the field.
+
+        '
+      parameters:
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        required: false
+        type: string
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  - id
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        creation_date:
+                          title: creation_date
+                          type: string
+                          format: date-time
+                        description:
+                          title: description
+                          type: string
+                        name:
+                          title: name
+                          type: string
+                    id:
+                      title: id
+                      type: string
+                    links:
+                      title: links
+                      type: object
+                      properties:
+                        self:
+                          title: schema
+                          type: string
+                          format: uri
+                    type:
+                      title: type
+                      type: string
+                      example: team
+              links:
+                title: links
+                type: object
+                properties:
+                  first:
+                    title: first
+                    type: string
+                    format: uri
+                  last:
+                    title: last
+                    type: string
+                    format: uri
+                  next:
+                    title: next
+                    type: string
+                    format: uri
+                  prev:
+                    title: prev
+                    type: string
+                    format: uri
+              meta:
+                title: meta
+                type: object
+                properties:
+                  pagination:
+                    title: pagination
+                    type: object
+                    properties:
+                      count:
+                        title: count
+                        type: integer
+                        format: int32
+                      page:
+                        title: page
+                        type: integer
+                        format: int32
+                      pages:
+                        title: pages
+                        type: integer
+                        format: int32
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+    post:
+      operationId: v1_organizations_accounts_teams_create
+      summary: Create a new team
+      description: '
+
+        ## Description
+
+
+        This endpoint creates a new team inside the company.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required:
+                  - name
+                  type: object
+                  properties:
+                    description:
+                      title: description
+                      type: string
+                    name:
+                      title: name
+                      type: string
+                links:
+                  title: links
+                  type: object
+                  properties:
+                    self:
+                      title: schema
+                      type: string
+                      format: uri
+                type:
+                  title: type
+                  type: string
+                  example: team
+      responses:
+        '400':
+          description: Bad request, invalid or missing data
+          examples:
+            body:
+              errors:
+              - detail: '{error-message}'
+                source:
+                  pointer: /data
+                status: '400'
+              - detail: '{error-message}'
+                source:
+                  pointer: /data/attributes/name
+                status: '400'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '409':
+          description: Missing JSON-API type attribute.
+          examples:
+            body:
+              errors:
+              - detail: The resource object's type (None) is not the type that constitute the collection represented by the endpoint (team).
+                source:
+                  pointer: /data
+                status: '409'
+        '201':
+          description: Team created
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                - id
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      creation_date:
+                        title: creation_date
+                        type: string
+                        format: date-time
+                      description:
+                        title: description
+                        type: string
+                      name:
+                        title: name
+                        type: string
+                  id:
+                    title: id
+                    type: string
+                  links:
+                    title: links
+                    type: object
+                    properties:
+                      self:
+                        title: schema
+                        type: string
+                        format: uri
+                  type:
+                    title: type
+                    type: string
+                    example: team
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+  /v1/organizations/accounts/teams/{id}/:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+    get:
+      operationId: v1_organizations_accounts_teams_read
+      summary: Get details of a team
+      description: '
+
+        ## Description
+
+
+        This endpoint returns the detail of a specific team.
+
+        '
+      parameters: []
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                - id
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      creation_date:
+                        title: creation_date
+                        type: string
+                        format: date-time
+                      description:
+                        title: description
+                        type: string
+                      name:
+                        title: name
+                        type: string
+                  id:
+                    title: id
+                    type: string
+                  links:
+                    title: links
+                    type: object
+                    properties:
+                      self:
+                        title: schema
+                        type: string
+                        format: uri
+                  type:
+                    title: type
+                    type: string
+                    example: team
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Team not found
+          examples:
+            body:
+              errors:
+              - detail: Not found.
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+    patch:
+      operationId: v1_organizations_accounts_teams_partial_update
+      summary: Update a team
+      description: '
+
+        ## Description
+
+
+        This endpoint updates the detail of a specific team.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              - id
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required:
+                  - name
+                  - description
+                  type: object
+                  properties:
+                    description:
+                      title: description
+                      type: string
+                    name:
+                      title: name
+                      type: string
+                id:
+                  title: id
+                  type: string
+                type:
+                  title: type
+                  type: string
+                  example: team
+      responses:
+        '400':
+          description: Bad request, invalid or missing data
+          examples:
+            body:
+              errors:
+              - detail: '{error-message}'
+                source:
+                  pointer: /data
+                status: '400'
+              - detail: '{error-message}'
+                source:
+                  pointer: /data/attributes/name
+                status: '400'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Team not found
+          examples:
+            body:
+              errors:
+              - detail: 'Invalid team_id id: {id} - '
+                source:
+                  pointer: /data
+                status: '404'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                - id
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      creation_date:
+                        title: creation_date
+                        type: string
+                        format: date-time
+                      description:
+                        title: description
+                        type: string
+                      name:
+                        title: name
+                        type: string
+                  id:
+                    title: id
+                    type: string
+                  links:
+                    title: links
+                    type: object
+                    properties:
+                      self:
+                        title: schema
+                        type: string
+                        format: uri
+                  type:
+                    title: type
+                    type: string
+                    example: team
+        '409':
+          description: Missing JSON-API type attribute.
+          examples:
+            body:
+              errors:
+              - detail: The resource object's type (None) is not the type that constitute the collection represented by the endpoint (team).
+                source:
+                  pointer: /data
+                status: '409'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+    delete:
+      operationId: v1_organizations_accounts_teams_delete
+      summary: Delete a team
+      description: '
+
+        ## Description
+
+
+        This endpoint deletes a specific team from the company.
+
+        '
+      parameters: []
+      responses:
+        '204':
+          description: Team has been removed from the company.
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '404':
+          description: Team not found
+          examples:
+            body:
+              errors:
+              - detail: 'Invalid team_id id: {id} - '
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+  /v1/organizations/accounts/teams/{id}/members/:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+    get:
+      operationId: v1_organizations_accounts_teams_members_read
+      summary: List members of a team
+      description: '
+
+        ## Description
+
+
+        This endpoint returns the list of members of the specified team.
+
+
+        ## Sorting
+
+        It''s possible to sort on the following fields:
+
+
+        * role
+
+        * first_name
+
+        * last_name
+
+        * email
+
+
+        By default results are ordered in ascending order, for descending descending put a ''-'' before the field.
+
+        '
+      parameters:
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        required: false
+        type: string
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  - id
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        email:
+                          title: email
+                          type: string
+                          format: email
+                        first_name:
+                          title: first_name
+                          type: string
+                        job_role:
+                          title: job_role
+                          type: string
+                        last_name:
+                          title: last_name
+                          type: string
+                        role:
+                          title: role
+                          type: string
+                        user_id:
+                          title: user_id
+                          type: string
+                    id:
+                      title: id
+                      type: string
+                    type:
+                      title: type
+                      type: string
+                      example: team_membership
+              links:
+                title: links
+                type: object
+                properties:
+                  first:
+                    title: first
+                    type: string
+                    format: uri
+                  last:
+                    title: last
+                    type: string
+                    format: uri
+                  next:
+                    title: next
+                    type: string
+                    format: uri
+                  prev:
+                    title: prev
+                    type: string
+                    format: uri
+              meta:
+                title: meta
+                type: object
+                properties:
+                  pagination:
+                    title: pagination
+                    type: object
+                    properties:
+                      count:
+                        title: count
+                        type: integer
+                        format: int32
+                      page:
+                        title: page
+                        type: integer
+                        format: int32
+                      pages:
+                        title: pages
+                        type: integer
+                        format: int32
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Team not found
+          examples:
+            body:
+              errors:
+              - detail: 'Invalid team_id id: {id} - '
+                source:
+                  pointer: /data
+                status: '404'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+    post:
+      operationId: v1_organizations_accounts_teams_members_create
+      summary: Add members to a team
+      description: '
+
+        ## Description
+
+
+        This endpoint adds member to a specific team of the company
+
+        Given a list of basic member information (emails, first name and last name), for each entity:
+
+
+        * it adds the members to the team if he/she is already a member the company.
+
+        * it creates a new member and add he/she to the team if there isn''t already a member with the same email in the company.
+
+
+        All user created will have ''Member'' as role.
+
+
+        In case of errors, like wrong email or missing data, all request is discarded and no member is created.
+
+
+        This endpoint accepts only one request per minute. See the responses for more information.
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required:
+                  - members
+                  type: object
+                  properties:
+                    members:
+                      type: array
+                      items:
+                        required:
+                        - email
+                        - first_name
+                        - last_name
+                        type: object
+                        properties:
+                          email:
+                            title: email
+                            type: string
+                            format: email
+                          first_name:
+                            title: first_name
+                            type: string
+                          last_name:
+                            title: last_name
+                            type: string
+                type:
+                  title: type
+                  type: string
+                  example: bulk_member_import
+      responses:
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '201':
+          description: Members created
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                required:
+                - attributes
+                - type
+                - id
+                type: object
+                properties:
+                  attributes:
+                    title: attributes
+                    required: []
+                    type: object
+                    properties:
+                      general_error:
+                        title: general_error
+                        type: string
+                      members:
+                        type: array
+                        items:
+                          required: []
+                          type: object
+                          properties:
+                            email:
+                              title: email
+                              type: string
+                              format: email
+                            error:
+                              title: error
+                              type: boolean
+                            first_name:
+                              title: first_name
+                              type: string
+                            is_success:
+                              title: is_success
+                              type: boolean
+                            last_name:
+                              title: last_name
+                              type: string
+                  id:
+                    title: id
+                    type: string
+                  type:
+                    title: type
+                    type: string
+                    example: bulk_member_import
+        '429':
+          description: '429: Too many requests. Your client is sending too many requests at once. Check the retry-after header for the number of seconds to wait between calls to this endpoint.'
+          examples:
+            body:
+              errors:
+              - detail: Too many requests.
+                source:
+                  pointer: /data
+                status: '429'
+        '400':
+          description: ''
+          examples:
+            body:
+              errors:
+              - detail:
+                  email: user@email.com
+                  error: error-message
+                source:
+                  pointer: /data
+                status: '400'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Team not found
+          examples:
+            body:
+              errors:
+              - detail: 'Invalid team_id id: {id} - '
+                source:
+                  pointer: /data
+                status: '404'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '409':
+          description: Missing JSON-API type attribute.
+          examples:
+            body:
+              errors:
+              - detail: The resource object's type (None) is not the type that constitute the collection represented by the endpoint (bulk_member_import).
+                source:
+                  pointer: /data
+                status: '409'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+    delete:
+      operationId: v1_organizations_accounts_teams_members_delete
+      summary: Remove members from a team
+      description: '
+
+        ## Description
+
+
+        This endpoint removes members from a specific team of the company in a single operation.
+
+        Given a list of emails, it removes all members from a specific team of the company.
+
+
+        In case of errors, like wrong email or already deleted members, the request is discarded and no member is deleted.
+
+
+        '
+      parameters:
+      - name: data
+        in: body
+        required: true
+        schema:
+          title: body
+          required:
+          - data
+          type: object
+          properties:
+            data:
+              title: data
+              required:
+              - attributes
+              - type
+              type: object
+              properties:
+                attributes:
+                  title: attributes
+                  required:
+                  - email_list
+                  type: object
+                  properties:
+                    email_list:
+                      title: email_list
+                      type: array
+                      items:
+                        type: string
+                        format: email
+                type:
+                  title: type
+                  type: string
+                  example: bulk_member_remove
+      responses:
+        '400':
+          description: Bad request, incorrect email address or the user does not belong to this team.
+          examples:
+            body:
+              errors:
+              - detail: 'invalid-member-deletion: user@email.com'
+                source:
+                  pointer: /data
+                status: '400'
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '404':
+          description: Team not found.
+          examples:
+            body:
+              errors:
+              - detail: 'Invalid team_id id: {id} - '
+                source:
+                  pointer: /data
+                status: '404'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+        '409':
+          description: Missing JSON-API type attribute.
+          examples:
+            body:
+              errors:
+              - detail: The resource object's type (None) is not the type that constitute the collection represented by the endpoint (bulk_member_remove).
+                source:
+                  pointer: /data
+                status: '409'
+        '204':
+          description: Members have been removed from the team.
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+  /v1/organizations/accounts/teams/{id}/subteams/:
+    parameters:
+    - name: id
+      in: path
+      required: true
+      type: string
+    get:
+      operationId: v1_organizations_accounts_teams_list_subteams
+      summary: List all subteams of a team
+      description: '
+
+        ## Description
+
+
+        This endpoint returns a list that contains all the subteams of a team.
+
+
+
+        ## Sorting
+
+        It''s possible to sort on the following fields:
+
+
+        * name
+
+
+        By default results are ordered in ascending order, for descending descending put a ''-'' before the field.
+
+        '
+      parameters:
+      - name: sort
+        in: query
+        description: Which field to use when ordering the results.
+        required: false
+        type: string
+      - name: page[number]
+        in: query
+        description: A page number within the paginated result set.
+        required: false
+        type: integer
+      - name: page[size]
+        in: query
+        description: Number of results to return per page.
+        required: false
+        type: integer
+      responses:
+        '200':
+          description: ''
+          schema:
+            title: body
+            required:
+            - data
+            type: object
+            properties:
+              data:
+                title: data
+                type: array
+                items:
+                  required:
+                  - attributes
+                  - type
+                  - id
+                  type: object
+                  properties:
+                    attributes:
+                      title: attributes
+                      required: []
+                      type: object
+                      properties:
+                        creation_date:
+                          title: creation_date
+                          type: string
+                          format: date-time
+                        description:
+                          title: description
+                          type: string
+                        name:
+                          title: name
+                          type: string
+                        subteams:
+                          title: subteams
+                          description: URL to recursively get subteams of the current team.
+                          type: string
+                          format: uri
+                    id:
+                      title: id
+                      type: string
+                    links:
+                      title: links
+                      type: object
+                      properties:
+                        self:
+                          title: schema
+                          type: string
+                          format: uri
+                    type:
+                      title: type
+                      type: string
+                      example: team
+              links:
+                title: links
+                type: object
+                properties:
+                  first:
+                    title: first
+                    type: string
+                    format: uri
+                  last:
+                    title: last
+                    type: string
+                    format: uri
+                  next:
+                    title: next
+                    type: string
+                    format: uri
+                  prev:
+                    title: prev
+                    type: string
+                    format: uri
+              meta:
+                title: meta
+                type: object
+                properties:
+                  pagination:
+                    title: pagination
+                    type: object
+                    properties:
+                      count:
+                        title: count
+                        type: integer
+                        format: int32
+                      page:
+                        title: page
+                        type: integer
+                        format: int32
+                      pages:
+                        title: pages
+                        type: integer
+                        format: int32
+        '401':
+          description: Executing the request without credentials.
+          examples:
+            body:
+              errors:
+              - detail: Authentication credentials were not provided.
+                source:
+                  pointer: /data
+                status: '401'
+        '500':
+          description: Internal server error.
+          examples:
+            body:
+              errors:
+              - detail: Internal server error.
+                source:
+                  pointer: /data
+                status: '500'
+        '503':
+          description: Service unavailable.
+          examples:
+            body:
+              errors:
+              - detail: The service is temporary unavailable. Please try again later.
+                source:
+                  pointer: /data
+                status: '503'
+      consumes:
+      - application/vnd.api+json
+      produces:
+      - application/vnd.api+json
+      tags:
+      - Organizations
+securityDefinitions:
+  oauth2:
+    authorizationUrl: https://platform.qa.com/oauth2/authorize/
+    description: Insert your API key pair.<br/><br/>Enterprise members with Admin permissions can generate and view their own API keys on the settings area of their Company Account [here](https://platform.qa.com/organizations/settings/api/).
+    flow: application
+    tokenUrl: https://platform.qa.com/oauth2/token/
+    type: oauth2
