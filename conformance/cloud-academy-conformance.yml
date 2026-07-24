@@ -1,0 +1,29 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cloud-academy-openapi-original.json
+# Cross-cutting standards conformance, derived from the OpenAPI and the developer docs.
+standards:
+  - id: oauth2
+    conforms: true
+    evidence: securityDefinitions declares oauth2 with the client-credentials (application) flow; tokenUrl https://platform.qa.com/oauth2/token/
+  - id: oauth2-client-credentials
+    conforms: true
+    evidence: RFC 6749 client-credentials grant, Basic-auth token request with grant_type=client_credentials
+  - id: oidc
+    conforms: false
+    evidence: no openIdConnect scheme and no /.well-known/openid-configuration document (host returns SPA soft-404)
+  - id: json-api
+    conforms: true
+    evidence: JSON:API-style data/type/attributes response envelope and errors[] with source.pointer; page[number]/page[size] and filter[] query parameters
+  - id: rfc9457-problem-details
+    conforms: false
+    evidence: errors use a JSON:API errors[] envelope, not application/problem+json
+  - id: rfc6585-rate-limiting
+    conforms: true
+    evidence: HTTP 429 responses documented with Retry-After header guidance
+  - id: pagination
+    conforms: true
+    evidence: page-number pagination via page[number]/page[size] with a next link
+  - id: idempotency
+    conforms: false
+    evidence: no idempotency-key header or parameter documented

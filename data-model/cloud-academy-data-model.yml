@@ -1,0 +1,34 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cloud-academy-openapi-original.json
+note: >-
+  The OpenAPI declares response bodies inline (no components.schemas / $ref), so this
+  entity graph is derived from resource paths, path parameters, and the JSON:API type
+  fields in the response examples. Relationships are structural, not schema-declared.
+entities:
+  - name: content
+    description: Catalog content — learning paths (lp), courses, quizzes, exams, resources, labs, lab challenges.
+    operations: [v1_content_catalog_list, v1_content_get_entity, v2_content_catalog_list, v2_content_get_entity]
+    json_api_type: content
+  - name: team
+    description: An organization team; teams nest into sub-teams and contain members.
+    id_param: id
+    operations: [v1_organizations_accounts_teams_list, v1_organizations_accounts_teams_create, v1_organizations_accounts_teams_read, v1_organizations_accounts_teams_partial_update, v1_organizations_accounts_teams_delete, v1_organizations_accounts_teams_list_subteams]
+  - name: member
+    description: A learner/account member; belongs to teams; progress is tracked per member.
+    operations: [v1_organizations_accounts_members, v1_organizations_accounts_teams_members_read, v1_organizations_accounts_teams_members_create, v1_organizations_accounts_teams_members_delete]
+  - name: report_job
+    description: An asynchronous report generation job identified by a UUID; polled for status and data.
+    json_api_type: report_job
+    id_param: id
+    operations: [v1_reports_jobs_list, v1_reports_jobs_read]
+  - name: progress
+    description: Company/user content progress records.
+    operations: [v2_company_progress_list, v2_user_progress_list, v2_user_progress_detail, v3_user_progress_list, v3_user_progress_detail]
+relationships:
+  - {from: team, to: team, kind: has_many, via: subteams}
+  - {from: team, to: member, kind: has_many, via: members}
+  - {from: member, to: team, kind: belongs_to, via: team_id}
+  - {from: report_job, to: member, kind: belongs_to, via: requested_by}
+  - {from: progress, to: member, kind: belongs_to, via: user_id}
+  - {from: progress, to: content, kind: belongs_to, via: content_id}

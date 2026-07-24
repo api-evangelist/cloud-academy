@@ -1,20 +1,79 @@
 aid: cloud-academy
 name: Cloud Academy
-description: Cloud Academy is a company surfaced as a portfolio company of 500-global and added to the
-  API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+description: >-
+  Cloud Academy is a hands-on technology skills training platform, now operating as the QA
+  Learning Platform (cloudacademy.com redirects to platform.qa.com). It combines self-paced
+  course content with hands-on labs, learning paths, quizzes, and exams across cloud, security,
+  and software disciplines. Its public REST API lets enterprise administrators integrate the
+  platform with internal business systems — browsing the content catalog, managing organization
+  teams and members, and generating asynchronous reports on learner activity, progress, and
+  skills. Authentication is OAuth2 client-credentials and the public API is rate-limited to 100
+  requests per minute. Cloud Academy was surfaced as a 500 Global portfolio company and enriched
+  into the API Evangelist network from its live Swagger definition.
 url: https://raw.githubusercontent.com/api-evangelist/cloud-academy/refs/heads/main/apis.yml
+accessModel:
+  pricing: unknown
+  onboarding: self-serve
+  trial: false
+  try_now: false
+  public: false
+  label: Self-serve signup
+  confidence: medium
+  source:
+  - authentication
+  generated: '2026-07-22'
+  method: derived
+image: https://assets.platform.qa.com/hanami/static/favicon-platform/apple-touch-icon.png
 x-type: company
 x-source: vc-portfolio
 x-backed-by:
 - 500-global
-x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier: enriched
+x-tier-reason: live-openapi
 specificationVersion: '0.20'
 created: '2026-07-17'
-modified: '2026-07-17'
+modified: '2026-07-18'
 tags:
 - Company
-apis: []
+- Training
+- Education
+- Learning Management
+- Cloud Computing
+- Skills
+- Reporting
+- eLearning
+apis:
+- aid: cloud-academy:cloud-academy-learning-management-system-api
+  name: Cloud Academy Learning Management System API
+  description: >-
+    The Learning Management System API from Cloud Academy — 9 operation(s) for learning management system.
+  humanURL: https://platform.qa.com/restapi/docs/swagger/
+  baseURL: https://platform.qa.com/restapi
+  tags:
+  - Learning Management System
+  properties:
+  - type: OpenAPI
+    url: openapi/cloud-academy-learning-management-system-api-openapi.yml
+- aid: cloud-academy:cloud-academy-organizations-api
+  name: Cloud Academy Organizations API
+  description: The Organizations API from Cloud Academy — 5 operation(s) for organizations.
+  humanURL: https://platform.qa.com/restapi/docs/swagger/
+  baseURL: https://platform.qa.com/restapi
+  tags:
+  - Organizations
+  properties:
+  - type: OpenAPI
+    url: openapi/cloud-academy-organizations-api-openapi.yml
+- aid: cloud-academy:cloud-academy-reports-api
+  name: Cloud Academy Reports API
+  description: The Reports API from Cloud Academy — 32 operation(s) for reports.
+  humanURL: https://platform.qa.com/restapi/docs/swagger/
+  baseURL: https://platform.qa.com/restapi
+  tags:
+  - Reports
+  properties:
+  - type: OpenAPI
+    url: openapi/cloud-academy-reports-api-openapi.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
@@ -23,3 +82,60 @@ maintainers:
 common:
 - type: Website
   url: https://cloudacademy.com
+- type: DeveloperPortal
+  url: https://platform.qa.com/restapi/docs/swagger/
+- type: Documentation
+  url: https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API
+- type: APIReference
+  url: https://platform.qa.com/restapi/docs/swagger/
+- type: GettingStarted
+  url: https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API
+- type: Support
+  url: https://support.platform.qa.com/hc/en-us
+- type: Blog
+  url: https://www.qa.com/resources/blog/
+- type: GitHubOrganization
+  url: https://github.com/cloudacademy
+- type: StatusPage
+  url: https://status.platform.qa.com
+- type: Deprecation
+  url: lifecycle/cloud-academy-lifecycle.yml
+- type: Pricing
+  url: https://platform.qa.com/pricing/
+- type: SignUp
+  url: https://platform.qa.com/login/
+- type: TermsOfService
+  url: https://www.qa.com/legal-privacy/
+- type: PrivacyPolicy
+  url: https://www.qa.com/legal-privacy/privacy-notice/
+- type: Authentication
+  url: authentication/cloud-academy-authentication.yml
+- type: OAuthScopes
+  url: scopes/cloud-academy-scopes.yml
+- type: Conventions
+  url: conventions/cloud-academy-conventions.yml
+- type: ErrorCatalog
+  url: errors/cloud-academy-problem-types.yml
+- type: RateLimits
+  url: rate-limits/cloud-academy-rate-limits.yml
+- type: Lifecycle
+  url: lifecycle/cloud-academy-lifecycle.yml
+- type: Conformance
+  url: conformance/cloud-academy-conformance.yml
+- type: DataModel
+  url: data-model/cloud-academy-data-model.yml
+- type: MCPServer
+  url: mcp/cloud-academy-mcp.yml
+- type: AgentSkill
+  url: skills/_index.yml
+- type: LLMsTxt
+  url: llms/cloud-academy-llms.txt
+- type: AgenticAccess
+  url: agentic-access/cloud-academy-agentic-access.yml
+- type: DomainSecurity
+  url: security/cloud-academy-domain-security.yml
+x-enrichment:
+  date: '2026-07-19'
+  status: backfilled
+  pass: local-v1
+  note: backfilled from .gitignore signal + verified work evidence

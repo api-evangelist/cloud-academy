@@ -1,0 +1,32 @@
+# QA API (formerly Cloud Academy)
+
+> The QA Learning Platform (formerly Cloud Academy, cloudacademy.com now redirects to platform.qa.com) is a hands-on tech skills training platform. Its REST API lets enterprise administrators integrate learning-management data — content catalog, organization teams and members, and asynchronous reporting jobs — with internal business systems such as intranet dashboards. Authentication is OAuth2 client-credentials; the public API is limited to 100 requests per minute.
+
+## API
+
+- [QA API Swagger docs](https://platform.qa.com/restapi/docs/swagger/): Interactive Swagger UI for the QA REST API (base https://platform.qa.com/restapi).
+- [Cloud Academy / QA API help article](https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API): Authentication, keys, and rate-limit guidance.
+- [Reports API help article](https://support.platform.qa.com/hc/en-us/articles/360050001332-Reports-API): Report generation and retrieval throttling.
+- [API key settings](https://platform.qa.com/organizations/settings/api/): Where Enterprise admins generate CLIENT_ID / CLIENT_SECRET pairs.
+
+## Specs
+
+- [OpenAPI (Swagger 2.0)](https://raw.githubusercontent.com/api-evangelist/cloud-academy/refs/heads/main/openapi/cloud-academy-openapi-original.json): 52 operations across Learning Management System, Organizations, and Reports.
+
+## Auth
+
+- OAuth2 client-credentials flow. Request a token with Basic auth (CLIENT_ID:CLIENT_SECRET) and `grant_type=client_credentials` against https://platform.qa.com/oauth2/token/. Tokens last 10 hours.
+
+## Conventions
+
+- Errors: JSON:API `errors[]` envelope ({ detail, source.pointer, status }), not RFC 9457.
+- Pagination: JSON:API `page[number]` / `page[size]`, with a `next` link.
+- Rate limiting: HTTP 429 with a `Retry-After` header; 100 req/min public, reports more restrictive.
+- Versioning: URI-path v1 / v2 / v3 (several v1 report operations deprecated).
+
+## Docs
+
+- [Status page](https://status.platform.qa.com): Atlassian Statuspage for the QA platform.
+- [QA Learning Platform](https://platform.qa.com): Product home.
+- [Pricing](https://platform.qa.com/pricing/)
+- [Blog](https://www.qa.com/resources/blog/)

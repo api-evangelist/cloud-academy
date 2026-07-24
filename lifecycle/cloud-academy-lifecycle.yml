@@ -1,0 +1,24 @@
+generated: '2026-07-18'
+method: searched
+source: https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API
+spec: openapi/cloud-academy-openapi-original.json
+versioning:
+  scheme: uri-path
+  versions: [v1, v2, v3]
+  notes: >-
+    Versions are carried in the URL path (/v1, /v2, /v3) per resource. Newer report and
+    progress operations are exposed under v2/v3 while older v1 report operations are
+    marked deprecated in the OpenAPI.
+deprecation:
+  policy: "Deprecated operations are flagged with `deprecated: true` in the OpenAPI and superseded by a higher-versioned path."
+  deprecated_operations:
+    - v1_reports_content-progress_create        # superseded by v2_reports_content-progress_create
+    - v1_reports_content-skills-export_create    # superseded by v2_reports_content-skills-export_create
+    - v1_reports_learning-path-content_create
+    - v1_reports_lp-progress-export_create
+    - v1_reports_programs-content_create         # superseded by v2_reports_programs-content_create
+    - v1_reports_training-plan-content_create    # superseded by v2/v3 training-plan-content
+    - v1_reports_user-activity_create            # superseded by v2_reports_user-activity_create
+    - v2_reports_course-content_create           # superseded by v3_reports_course-content_create
+status_page: https://status.platform.qa.com
+status_page_provider: Atlassian Statuspage

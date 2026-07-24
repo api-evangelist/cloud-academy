@@ -1,0 +1,18 @@
+{
+  "provider": "cloud-academy",
+  "sources": [
+    "cloud-academy-learning-management-system-api-openapi.yml",
+    "cloud-academy-organizations-api-openapi.yml",
+    "cloud-academy-reports-api-openapi.yml"
+  ],
+  "outputs": [
+    "cloud-academy-learning-management-system-api-openapi.yml",
+    "cloud-academy-organizations-api-openapi.yml",
+    "cloud-academy-reports-api-openapi.yml"
+  ],
+  "archived": [],
+  "errors": [],
+  "warnings": [],
+  "notes": [],
+  "skipped": []
+}

@@ -1,0 +1,22 @@
+generated: '2026-07-18'
+method: searched
+source: https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API
+signal:
+  status_code: 429
+  header: Retry-After
+  notes: On 429 the response body is a JSON:API errors[] envelope; the Retry-After header carries the seconds to wait before retrying.
+rate_limits:
+  - scope: public-api
+    limit_count: 100
+    window: minute
+    description: General limit for the public QA API — 100 calls per minute.
+  - scope: reports-standard
+    limit_count: 1
+    window: hour
+    per: user
+    description: Many report endpoints are limited to 1 call per user per hour.
+  - scope: reports-restricted
+    limit_count: 1
+    window: 10-minutes
+    per: user
+    description: Some report endpoints are limited to 1 call per user per 10-minute period.

@@ -1,0 +1,46 @@
+generated: '2026-07-18'
+method: searched
+source: https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API
+spec: openapi/cloud-academy-openapi-original.json
+# Cross-cutting request/response semantics for the QA (formerly Cloud Academy) API,
+# captured from the developer docs and derived from the OpenAPI.
+authentication:
+  style: oauth2-client-credentials
+  token_endpoint: https://platform.qa.com/oauth2/token/
+  token_request: Basic auth (CLIENT_ID:CLIENT_SECRET) + grant_type=client_credentials, content-type application/x-www-form-urlencoded
+  token_lifetime_hours: 10
+  notes: Tokens can be cached and reused for up to 10 hours; keys are generated per admin under organization API settings.
+  see: authentication/cloud-academy-authentication.yml
+idempotency:
+  supported: false
+  notes: The API documents no idempotency-key header or parameter. Report creation is asynchronous via job resources, and repeat report requests are rate-limited rather than deduplicated.
+pagination:
+  style: page-number (JSON:API)
+  params:
+    - page[number]
+    - page[size]
+  notes: List endpoints (e.g. content catalog) use JSON:API bracketed page parameters; responses include a `next` link for traversal.
+filtering:
+  style: JSON:API bracketed filters
+  params:
+    - filter[content_type]   # comma-separated: lp, course, quiz, exam, resource, lab, labchallenge
+sparse_fields:
+  param: additional_fields   # comma-separated opt-in fields, e.g. description, skills
+  notes: Additional (heavier) fields are opt-in per request rather than sparse-fieldset exclusion.
+versioning:
+  scheme: uri-path
+  versions: [v1, v2, v3]
+  current: v3 (per-resource; v1/v2 remain available, several v1 report operations deprecated)
+  see: lifecycle/cloud-academy-lifecycle.yml
+error_envelope:
+  format: json-api-errors
+  shape: 'errors: [ { detail, source: { pointer }, status } ]'
+  see: errors/cloud-academy-problem-types.yml
+rate_limiting:
+  signal: HTTP 429 with Retry-After header
+  public_limit: 100 requests per minute
+  reports_limit: many reports 1 per user per hour; some 1 per user per 10 minutes
+  see: rate-limits/cloud-academy-rate-limits.yml
+media_type:
+  request: application/json
+  response: application/json

@@ -1,0 +1,21 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for QA (Cloud Academy) API
+  version: 1.0.0
+extends: openapi/cloud-academy-openapi-original.json
+actions:
+  - target: $.info
+    update:
+      x-apievangelist-enriched: '2026-07-18'
+      x-api-provider: QA (formerly Cloud Academy)
+      x-auth-model: oauth2-client-credentials
+      x-error-format: json-api-errors
+      x-rate-limit: 100 requests per minute (Reports API more restrictive)
+  - target: $.tags
+    update:
+      - name: Learning Management System
+        description: Content catalog, company/user progress, and content-entity lookups.
+      - name: Organizations
+        description: Manage accounts, teams, sub-teams, and team memberships.
+      - name: Reports
+        description: Asynchronous reporting jobs (create job, poll job status, retrieve data).

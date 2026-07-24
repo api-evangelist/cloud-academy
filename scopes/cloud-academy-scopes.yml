@@ -1,0 +1,13 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cloud-academy-openapi-original.json
+schemes:
+- name: oauth2
+  source: openapi/cloud-academy-openapi-original.json
+  flows:
+  - flow: clientCredentials
+    authorizationUrl: https://platform.qa.com/oauth2/authorize/
+    tokenUrl: https://platform.qa.com/oauth2/token/
+  description: Insert your API key pair.<br/><br/>Enterprise members with Admin permissions
+    can generate and view their own API keys on the settings area of their Company Account [here](https://platform.qa.com/organizations/settings/api/).
+scopes: []

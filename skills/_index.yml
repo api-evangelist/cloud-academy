@@ -1,0 +1,16 @@
+generated: '2026-07-18'
+method: generated
+source: openapi/cloud-academy-openapi-original.json
+skills:
+  - file: cloud-academy-browse-content-catalog.md
+    name: Browse the QA content catalog
+    api: openapi/cloud-academy-openapi-original.json
+    operations: [v2_content_catalog_list, v2_content_get_entity]
+  - file: cloud-academy-manage-teams-and-members.md
+    name: Manage organization teams and members
+    api: openapi/cloud-academy-openapi-original.json
+    operations: [v1_organizations_accounts_teams_create, v1_organizations_accounts_teams_read, v1_organizations_accounts_teams_members_create, v1_organizations_accounts_teams_members_delete]
+  - file: cloud-academy-run-and-retrieve-report.md
+    name: Run and retrieve a report
+    api: openapi/cloud-academy-openapi-original.json
+    operations: [v2_reports_user-activity_create, v1_reports_jobs_list, v1_reports_jobs_read]

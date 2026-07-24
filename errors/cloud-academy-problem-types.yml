@@ -1,0 +1,36 @@
+generated: '2026-07-18'
+method: derived
+source: openapi/cloud-academy-openapi-original.json
+# The QA / Cloud Academy API returns a JSON:API-style error envelope, NOT RFC 9457
+# application/problem+json. Errors are an array under errors[], each with detail,
+# source.pointer, and status. Derived from the OpenAPI 4xx/5xx responses.
+format: json-api-errors
+envelope:
+  field: errors
+  item_fields: [detail, source.pointer, status]
+problems:
+  - status: 400
+    title: "Bad request"
+    operations_count: 5
+  - status: 401
+    title: "Authentication credentials were not provided or are invalid"
+    operations_count: 52
+  - status: 403
+    title: "Forbidden — the token lacks permission for this resource"
+    operations_count: 3
+  - status: 404
+    title: "Resource not found"
+    operations_count: 16
+  - status: 409
+    title: "Conflict"
+    operations_count: 5
+  - status: 429
+    title: "Too many requests — rate limit exceeded (see Retry-After header)"
+    retry_after_header: true
+    operations_count: 1
+  - status: 500
+    title: "Internal server error"
+    operations_count: 52
+  - status: 503
+    title: "Service unavailable"
+    operations_count: 52

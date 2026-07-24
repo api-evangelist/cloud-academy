@@ -1,0 +1,27 @@
+generated: '2026-07-18'
+method: searched
+host: https://platform.qa.com
+# All /.well-known/* paths return HTTP 200 but serve the platform's Next.js SPA HTML
+# shell (content-type text/html), i.e. a soft-404 — no real discovery documents are
+# published. Recorded for probe auditability; no WellKnown/SecurityTxt pointer is wired.
+documents:
+  - path: /.well-known/security.txt
+    status: 200
+    content_type: text/html
+    real_document: false
+  - path: /.well-known/openid-configuration
+    status: 200
+    content_type: text/html
+    real_document: false
+  - path: /.well-known/oauth-authorization-server
+    status: 200
+    content_type: text/html
+    real_document: false
+  - path: /.well-known/api-catalog
+    status: 200
+    content_type: text/html
+    real_document: false
+  - path: /.well-known/ai-plugin.json
+    status: 200
+    content_type: text/html
+    real_document: false
