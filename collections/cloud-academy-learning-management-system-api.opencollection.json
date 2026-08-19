@@ -1,0 +1,824 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "QA Learning Management System API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Learning Management System",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Access the QA Platform content catalog, with pagination [DEPRECATED]",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/content/catalog/",
+            "params": [
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "filter[content_type]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] A comma-separated list of content types to limit the returned catalog.\nHere the possible values:\n- lp\n- course\n- quiz\n- exam\n- resource\n- lab\n- labchallenge\n\n\ne.g.: https://...&filter[content_type]=course,labchallenge"
+              },
+              {
+                "name": "additional_fields",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] A comma-separated list of additional fields that can be shown in the catalog.\nPlease note: using these parameters can affect performances.\nHere the possible values:\n- description: represents the full description of the content\n- skills: this will includes information about platforms and skills related to the content\n\ne.g.: https://...&additional_fields=skills,description"
+              }
+            ]
+          },
+          "docs": "\n## Description\nThis API returns a catalog of the items in the QA Platform library, including the custom content your company created in Content Engine.\nThis API is deprecated: please use /v2/content/catalog/ instead.\n"
+        },
+        {
+          "info": {
+            "name": "Access to a specific QA Platform content [DEPRECATED]",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/content/entity/",
+            "params": [
+              {
+                "name": "filter[uuid]",
+                "value": "",
+                "type": "query",
+                "description": "uuid of the content"
+              },
+              {
+                "name": "filter[content_type]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] Limit the search on the given content type.\nHere the possible values (you can pick only one):\n- lp\n- course\n- quiz\n- exam\n- resource\n- lab\n- labchallenge\n\n\ne.g.: https://...&filter[content_type]=course,labchallenge"
+              }
+            ]
+          },
+          "docs": "\n## Description\nThis API returns a specific content of the QA Platform library.\nThis API is deprecated: please use /v2/content/entity/ instead.\n"
+        },
+        {
+          "info": {
+            "name": "Retrieve content progress for your organization member by member",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/company/progress/",
+            "params": [
+              {
+                "name": "filter[first_name]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[first_name__in]",
+                "value": "",
+                "type": "query",
+                "description": "Multiple values may be separated by commas."
+              },
+              {
+                "name": "filter[last_name]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_name__in]",
+                "value": "",
+                "type": "query",
+                "description": "Multiple values may be separated by commas."
+              },
+              {
+                "name": "filter[email]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[email__in]",
+                "value": "",
+                "type": "query",
+                "description": "Multiple values may be separated by commas."
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              }
+            ]
+          },
+          "docs": "\n## Description\nThis API will return a list of the members of the company with a link with their own progress.\nThe API does not apply any default pagination. Thus, `links` and `meta` keys in the response are optional and will appear only if a pagination is explicitly applied.  \nNote: Please bear in mind that the data retrieved is updated every hour and not in real time.\n"
+        },
+        {
+          "info": {
+            "name": "Access the QA Platform content catalog, with pagination",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/content/catalog/",
+            "params": [
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "filter[content_type]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] A comma-separated list of content types to limit the returned catalog.\nHere the possible values:\n- course\n- lesson\n- quiz\n- exam\n- resource\n- lab\n- labchallenge\n\n\ne.g.: https://...&filter[content_type]=lesson,labchallenge"
+              },
+              {
+                "name": "filter[content_status]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] A comma-separated list of content statuses to limit the returned catalog.\nHere the possible values:\n- archived\n- outdated\n- published\n- unpublished\n- draft\n\n\ne.g.: https://...&filter[content_status]=published,outdated"
+              },
+              {
+                "name": "filter[is_public]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] A boolean flag to limit the returned catalog to public or non-public content. If omitted, both are returned.\nHere the possible values:\n- true\n- false\n\n\ne.g.: https://...&filter[is_public]=true"
+              },
+              {
+                "name": "additional_fields",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] A comma-separated list of additional fields that can be shown in the catalog.\nPlease note: using these parameters can affect performances.\nHere the possible values:\n- description: represents the full description of the content\n- skills: this will includes information about platforms and skills related to the content\n\n- content_status: represents the status of the content\n\n- is_public: tells if content is public or not\n\ne.g.: https://...&additional_fields=skills,description,content_status,is_public"
+              },
+              {
+                "name": "filter[publish_date_gte]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] Publish date of the content greater than or equal to the given date-time value.\n"
+              },
+              {
+                "name": "filter[publish_date_lte]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] Publish date of the content less than or equal to the given date-time value.\n"
+              }
+            ]
+          },
+          "docs": "\n## Description\nThis API returns a catalog of the items in the QA Platform library, including the custom content your company created in Content Engine.\nThis API replaces /v1/content/catalog/ to adhere to the new content terminology. The functionality remains the same. \n"
+        },
+        {
+          "info": {
+            "name": "Access to a specific QA Platform content",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/content/entity/",
+            "params": [
+              {
+                "name": "filter[uuid]",
+                "value": "",
+                "type": "query",
+                "description": "uuid of the content"
+              },
+              {
+                "name": "filter[content_type]",
+                "value": "",
+                "type": "query",
+                "description": "[Optional] Limit the search on the given content type.\nHere the possible values (you can pick only one):\n- course\n- lesson\n- quiz\n- exam\n- resource\n- lab\n- labchallenge\n\n\ne.g.: https://...&filter[content_type]=course,labchallenge"
+              }
+            ]
+          },
+          "docs": "\n## Description\nThis API returns a specific content of the QA Platform library.\nThis API replaces /v1/content/entity/ to adhere to the new content terminology. The functionality remains the same.\n"
+        },
+        {
+          "info": {
+            "name": "Show the progress of the currently logged in user [DEPRECATED]",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/user/progress/",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "filter[progress]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[first_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_success_rate]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[is_passed_once]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[entity_type]",
+                "value": "",
+                "type": "query",
+                "description": "Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Learning Path, Resource, Quiz, Exam"
+              }
+            ]
+          },
+          "docs": "\n## Description\nThis endpoint is a simplified version of the */user/{user_id}/progress*\nthat retrieves the progress for the currently logged in user.\nNote: Please bear in mind that the data retrieved is updated every hour and not in real time.\nThis API is deprecated: please use /v3/user/progress/ instead.\n"
+        },
+        {
+          "info": {
+            "name": "Shows the progress of a specific user given their user_id [DEPRECATED]",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v2/user/:user_id/progress/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "filter[progress]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[first_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_success_rate]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[is_passed_once]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[entity_type]",
+                "value": "",
+                "type": "query",
+                "description": "Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Learning Path, Resource, Quiz, Exam"
+              }
+            ]
+          },
+          "docs": "\n## Description\nYou must use the alphanumeric user_id as opposed to the deprecated numeric version. \nYou can find the alphanumeric user_id using the /v1/organizations/accounts/teams/{id}/members/ endpoint or in the Active and Invited Members report.\nAn enterprise member can view only their own progress.\nAn enterprise admin can also view the progress of any member of the company by passing their user_id.\nNote: Please bear in mind that the data retrieved is updated every hour and not in real time."
+        },
+        {
+          "info": {
+            "name": "Show the progress of the currently logged in user",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v3/user/progress/",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              },
+              {
+                "name": "filter[progress]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[first_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_success_rate]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[is_passed_once]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[entity_type]",
+                "value": "",
+                "type": "query",
+                "description": "Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Lesson, Resource, Quiz, Exam"
+              }
+            ]
+          },
+          "docs": "\n## Description\nThis endpoint retrieves the progress for the currently logged in user.\nNote: Please bear in mind that the data retrieved is updated every hour and not in real time.\nThis API replaces /v2/user/progress/ to adhere to the new content terminology. The functionality remains the same.\n"
+        },
+        {
+          "info": {
+            "name": "Shows the progress of a specific user given their user_id",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v3/user/:user_id/progress/",
+            "params": [
+              {
+                "name": "user_id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "filter[progress]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[progress__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[first_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[first_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__lte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gt]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_activity_date__gte]",
+                "value": "",
+                "type": "query",
+                "description": "Supported formats: YYYY-mm-dd and YYYY/mm/dd"
+              },
+              {
+                "name": "filter[last_success_rate]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__lte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gt]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[last_success_rate__gte]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[is_passed_once]",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "filter[entity_type]",
+                "value": "",
+                "type": "query",
+                "description": "Entity type to filter, choices are: Laboratory, Laboratory Challenge, Course, Lesson, Resource, Quiz, Exam"
+              }
+            ]
+          },
+          "docs": "\n## Description\nYou must use the alphanumeric user_id as opposed to the deprecated numeric version. \nYou can find the alphanumeric user_id using the /v1/organizations/accounts/teams/{id}/members/ endpoint or in the Active and Invited Members report.\nAn enterprise member can view only their own progress.\nAn enterprise admin can also view the progress of any member of the company by passing their user_id.\nNote: Please bear in mind that the data retrieved is updated every hour and not in real time."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

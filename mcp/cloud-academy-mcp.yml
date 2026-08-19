@@ -2,167 +2,174 @@ generated: '2026-07-18'
 method: derived
 status: candidate
 source: openapi/cloud-academy-openapi-original.json
-note: >-
-  No official hosted MCP server was found for the QA / Cloud Academy API. This is a
-  candidate tool list derived one-to-one from the OpenAPI operations to seed an MCP
-  server. OAuth2 client-credentials auth applies to every tool.
+note: No official hosted MCP server was found for the QA / Cloud Academy API. This is a candidate tool
+  list derived one-to-one from the OpenAPI operations to seed an MCP server. OAuth2 client-credentials
+  auth applies to every tool.
 server:
   name: cloud-academy
   transport: http
 tools:
-  - name: v1_content_catalog_list
-    description: "Access the QA Platform content catalog, with pagination [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_content_catalog_list
-  - name: v1_content_get_entity
-    description: "Access to a specific QA Platform content [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_content_get_entity
-  - name: v1_organizations_accounts_members
-    description: "Remove members from the company"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_members
-  - name: v1_organizations_accounts_teams_list
-    description: "List all teams"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_list
-  - name: v1_organizations_accounts_teams_create
-    description: "Create a new team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_create
-  - name: v1_organizations_accounts_teams_read
-    description: "Get details of a team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_read
-  - name: v1_organizations_accounts_teams_partial_update
-    description: "Update a team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_partial_update
-  - name: v1_organizations_accounts_teams_delete
-    description: "Delete a team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_delete
-  - name: v1_organizations_accounts_teams_members_read
-    description: "List members of a team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_members_read
-  - name: v1_organizations_accounts_teams_members_create
-    description: "Add members to a team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_members_create
-  - name: v1_organizations_accounts_teams_members_delete
-    description: "Remove members from a team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_members_delete
-  - name: v1_organizations_accounts_teams_list_subteams
-    description: "List all subteams of a team"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_list_subteams
-  - name: v1_reports_certifications_create
-    description: "Triggers the generation of certification report, listing all uploaded member certifications including their level, achievement date and expiry date"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_certifications_create
-  - name: v1_reports_content-access_create
-    description: "Triggers the generation of a content access report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-access_create
-  - name: v1_reports_content-inventory-export_create
-    description: "Triggers the generation of Content Inventory Report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-inventory-export_create
-  - name: v1_reports_content-progress_create
-    description: "Triggers the generation of Content Progress report [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-progress_create
-  - name: v1_reports_content-skills-export_create
-    description: "Triggers the generation of content skills report; retrieves skills relating to a content [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-skills-export_create
-  - name: v1_reports_course-uplift-export_create
-    description: "Triggers the generation of Course Uplift Report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_course-uplift-export_create
-  - name: v1_reports_cpe-score-export_create
-    description: "Triggers the generation of cpe score report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_cpe-score-export_create
-  - name: v1_reports_custom-reports_list
-    description: "Retrieves all available custom reports"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_custom-reports_list
-  - name: v1_reports_custom-reports_create
-    description: "Triggers the generation of a custom report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_custom-reports_create
-  - name: v1_reports_exam-answers_create
-    description: "Triggers the generation of exam answers report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_exam-answers_create
-  - name: v1_reports_hourly-time-export_create
-    description: "Triggers the generation of Hourly Time report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_hourly-time-export_create
-  - name: v1_reports_inactive-members_create
-    description: "Triggers the generation of inactive members report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_inactive-members_create
-  - name: v1_reports_jobs_list
-    description: "Retrieves all the available report jobs belonging to the current user"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_jobs_list
-  - name: v1_reports_jobs_read
-    description: "Retrieves detailed information about the given report job"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_jobs_read
-  - name: v1_reports_learning-path-content_create
-    description: "Triggers the generation of a learning path content report [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_learning-path-content_create
-  - name: v1_reports_lp-progress-export_create
-    description: "Triggers the generation of Learning Path Progress report [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_lp-progress-export_create
-  - name: v1_reports_members-export_create
-    description: "Triggers the generation of a members report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_members-export_create
-  - name: v1_reports_programs-content_create
-    description: "Triggers the generation of programs content report [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_programs-content_create
-  - name: v1_reports_programs-progress_create
-    description: "Triggers the generation of programs progress report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_programs-progress_create
-  - name: v1_reports_smart-skills-scores-export_create
-    description: "Triggers the generation of Smart Skills Scores Report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_smart-skills-scores-export_create
-  - name: v1_reports_team-memberships_create
-    description: "Triggers the generation of a team memberships report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_team-memberships_create
-  - name: v1_reports_training-plan-content_create
-    description: "Triggers the generation of a training plan content report [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_training-plan-content_create
-  - name: v1_reports_training-plan-progress_create
-    description: "Triggers the generation of a training plan progress report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_training-plan-progress_create
-  - name: v1_reports_user-activity_create
-    description: "Triggers the generation of Member Activity report [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_user-activity_create
-  - name: v1_reports_user-skills_create
-    description: "Triggers the generation of a user skills report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_user-skills_create
-  - name: v2_company_progress_list
-    description: "Retrieve content progress for your organization member by member"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_company_progress_list
-  - name: v2_content_catalog_list
-    description: "Access the QA Platform content catalog, with pagination"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_content_catalog_list
-  - name: v2_content_get_entity
-    description: "Access to a specific QA Platform content"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_content_get_entity
-  - name: v2_reports_content-progress_create
-    description: "Triggers the generation of Content Progress report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_content-progress_create
-  - name: v2_reports_content-skills-export_create
-    description: "Triggers the generation of content skills report; retrieves skills relating to a content"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_content-skills-export_create
-  - name: v2_reports_course-content_create
-    description: "Triggers the generation of a course content report [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_course-content_create
-  - name: v2_reports_course-progress-export_create
-    description: "Triggers the generation of Course Progress report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_course-progress-export_create
-  - name: v2_reports_programs-content_create
-    description: "Triggers the generation of programs content report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_programs-content_create
-  - name: v2_reports_training-plan-content_create
-    description: "Triggers the generation of a training plan content report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_training-plan-content_create
-  - name: v2_reports_user-activity_create
-    description: "Triggers the generation of Member Activity report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_user-activity_create
-  - name: v2_user_progress_list
-    description: "Show the progress of the currently logged in user [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_user_progress_list
-  - name: v2_user_progress_detail
-    description: "Shows the progress of a specific user given their user_id [DEPRECATED]"
-    source_operation: openapi/cloud-academy-openapi-original.json#v2_user_progress_detail
-  - name: v3_reports_course-content_create
-    description: "Triggers the generation of a course content report"
-    source_operation: openapi/cloud-academy-openapi-original.json#v3_reports_course-content_create
-  - name: v3_user_progress_list
-    description: "Show the progress of the currently logged in user"
-    source_operation: openapi/cloud-academy-openapi-original.json#v3_user_progress_list
-  - name: v3_user_progress_detail
-    description: "Shows the progress of a specific user given their user_id"
-    source_operation: openapi/cloud-academy-openapi-original.json#v3_user_progress_detail
+- name: v1_content_catalog_list
+  description: Access the QA Platform content catalog, with pagination [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_content_catalog_list
+- name: v1_content_get_entity
+  description: Access to a specific QA Platform content [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_content_get_entity
+- name: v1_organizations_accounts_members
+  description: Remove members from the company
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_members
+- name: v1_organizations_accounts_teams_list
+  description: List all teams
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_list
+- name: v1_organizations_accounts_teams_create
+  description: Create a new team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_create
+- name: v1_organizations_accounts_teams_read
+  description: Get details of a team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_read
+- name: v1_organizations_accounts_teams_partial_update
+  description: Update a team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_partial_update
+- name: v1_organizations_accounts_teams_delete
+  description: Delete a team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_delete
+- name: v1_organizations_accounts_teams_members_read
+  description: List members of a team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_members_read
+- name: v1_organizations_accounts_teams_members_create
+  description: Add members to a team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_members_create
+- name: v1_organizations_accounts_teams_members_delete
+  description: Remove members from a team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_members_delete
+- name: v1_organizations_accounts_teams_list_subteams
+  description: List all subteams of a team
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_organizations_accounts_teams_list_subteams
+- name: v1_reports_certifications_create
+  description: Triggers the generation of certification report, listing all uploaded member certifications
+    including their level, achievement date and expiry date
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_certifications_create
+- name: v1_reports_content-access_create
+  description: Triggers the generation of a content access report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-access_create
+- name: v1_reports_content-inventory-export_create
+  description: Triggers the generation of Content Inventory Report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-inventory-export_create
+- name: v1_reports_content-progress_create
+  description: Triggers the generation of Content Progress report [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-progress_create
+- name: v1_reports_content-skills-export_create
+  description: Triggers the generation of content skills report; retrieves skills relating to a content
+    [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_content-skills-export_create
+- name: v1_reports_course-uplift-export_create
+  description: Triggers the generation of Course Uplift Report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_course-uplift-export_create
+- name: v1_reports_cpe-score-export_create
+  description: Triggers the generation of cpe score report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_cpe-score-export_create
+- name: v1_reports_custom-reports_list
+  description: Retrieves all available custom reports
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_custom-reports_list
+- name: v1_reports_custom-reports_create
+  description: Triggers the generation of a custom report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_custom-reports_create
+- name: v1_reports_exam-answers_create
+  description: Triggers the generation of exam answers report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_exam-answers_create
+- name: v1_reports_hourly-time-export_create
+  description: Triggers the generation of Hourly Time report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_hourly-time-export_create
+- name: v1_reports_inactive-members_create
+  description: Triggers the generation of inactive members report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_inactive-members_create
+- name: v1_reports_jobs_list
+  description: Retrieves all the available report jobs belonging to the current user
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_jobs_list
+- name: v1_reports_jobs_read
+  description: Retrieves detailed information about the given report job
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_jobs_read
+- name: v1_reports_learning-path-content_create
+  description: Triggers the generation of a learning path content report [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_learning-path-content_create
+- name: v1_reports_lp-progress-export_create
+  description: Triggers the generation of Learning Path Progress report [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_lp-progress-export_create
+- name: v1_reports_members-export_create
+  description: Triggers the generation of a members report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_members-export_create
+- name: v1_reports_programs-content_create
+  description: Triggers the generation of programs content report [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_programs-content_create
+- name: v1_reports_programs-progress_create
+  description: Triggers the generation of programs progress report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_programs-progress_create
+- name: v1_reports_smart-skills-scores-export_create
+  description: Triggers the generation of Smart Skills Scores Report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_smart-skills-scores-export_create
+- name: v1_reports_team-memberships_create
+  description: Triggers the generation of a team memberships report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_team-memberships_create
+- name: v1_reports_training-plan-content_create
+  description: Triggers the generation of a training plan content report [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_training-plan-content_create
+- name: v1_reports_training-plan-progress_create
+  description: Triggers the generation of a training plan progress report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_training-plan-progress_create
+- name: v1_reports_user-activity_create
+  description: Triggers the generation of Member Activity report [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_user-activity_create
+- name: v1_reports_user-skills_create
+  description: Triggers the generation of a user skills report
+  source_operation: openapi/cloud-academy-openapi-original.json#v1_reports_user-skills_create
+- name: v2_company_progress_list
+  description: Retrieve content progress for your organization member by member
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_company_progress_list
+- name: v2_content_catalog_list
+  description: Access the QA Platform content catalog, with pagination
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_content_catalog_list
+- name: v2_content_get_entity
+  description: Access to a specific QA Platform content
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_content_get_entity
+- name: v2_reports_content-progress_create
+  description: Triggers the generation of Content Progress report
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_content-progress_create
+- name: v2_reports_content-skills-export_create
+  description: Triggers the generation of content skills report; retrieves skills relating to a content
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_content-skills-export_create
+- name: v2_reports_course-content_create
+  description: Triggers the generation of a course content report [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_course-content_create
+- name: v2_reports_course-progress-export_create
+  description: Triggers the generation of Course Progress report
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_course-progress-export_create
+- name: v2_reports_programs-content_create
+  description: Triggers the generation of programs content report
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_programs-content_create
+- name: v2_reports_training-plan-content_create
+  description: Triggers the generation of a training plan content report
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_training-plan-content_create
+- name: v2_reports_user-activity_create
+  description: Triggers the generation of Member Activity report
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_reports_user-activity_create
+- name: v2_user_progress_list
+  description: Show the progress of the currently logged in user [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_user_progress_list
+- name: v2_user_progress_detail
+  description: Shows the progress of a specific user given their user_id [DEPRECATED]
+  source_operation: openapi/cloud-academy-openapi-original.json#v2_user_progress_detail
+- name: v3_reports_course-content_create
+  description: Triggers the generation of a course content report
+  source_operation: openapi/cloud-academy-openapi-original.json#v3_reports_course-content_create
+- name: v3_user_progress_list
+  description: Show the progress of the currently logged in user
+  source_operation: openapi/cloud-academy-openapi-original.json#v3_user_progress_list
+- name: v3_user_progress_detail
+  description: Shows the progress of a specific user given their user_id
+  source_operation: openapi/cloud-academy-openapi-original.json#v3_user_progress_detail
+deployment:
+  mode: none
+  verified: derived
+  tools: 52
+  checked: '2026-08-12'
+  source: catalog MCP census

@@ -1,0 +1,233 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "QA Learning Management System Organizations API",
+    "version": "v1"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "Organizations",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Remove members from the company",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organizations/accounts/members/"
+          },
+          "docs": "\n## Description\n\nThis endpoint removes members from a company in a single operation.\nGiven a list of emails, it removes all members from the company.\n\nIn case of errors, like wrong email or already deleted members, the request is discarded and no member is deleted.\nWe suggest to use maximum 25 users per request.\n"
+        },
+        {
+          "info": {
+            "name": "List all teams",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/",
+            "params": [
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint returns a list that contains all teams of the company.\n\n\n## Sorting\nIt's possible to sort on the following fields:\n\n* name\n\nBy default results are ordered in ascending order, for descending descending put a '-' before the field.\n"
+        },
+        {
+          "info": {
+            "name": "Create a new team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/"
+          },
+          "docs": "\n## Description\n\nThis endpoint creates a new team inside the company.\n"
+        },
+        {
+          "info": {
+            "name": "Get details of a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint returns the detail of a specific team.\n"
+        },
+        {
+          "info": {
+            "name": "Update a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "PATCH",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint updates the detail of a specific team.\n"
+        },
+        {
+          "info": {
+            "name": "Delete a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/:id/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint deletes a specific team from the company.\n"
+        },
+        {
+          "info": {
+            "name": "List members of a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/:id/members/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint returns the list of members of the specified team.\n\n## Sorting\nIt's possible to sort on the following fields:\n\n* role\n* first_name\n* last_name\n* email\n\nBy default results are ordered in ascending order, for descending descending put a '-' before the field.\n"
+        },
+        {
+          "info": {
+            "name": "Add members to a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "POST",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/:id/members/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint adds member to a specific team of the company\nGiven a list of basic member information (emails, first name and last name), for each entity:\n\n* it adds the members to the team if he/she is already a member the company.\n* it creates a new member and add he/she to the team if there isn't already a member with the same email in the company.\n\nAll user created will have 'Member' as role.\n\nIn case of errors, like wrong email or missing data, all request is discarded and n"
+        },
+        {
+          "info": {
+            "name": "Remove members from a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "DELETE",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/:id/members/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint removes members from a specific team of the company in a single operation.\nGiven a list of emails, it removes all members from a specific team of the company.\n\nIn case of errors, like wrong email or already deleted members, the request is discarded and no member is deleted.\n\n"
+        },
+        {
+          "info": {
+            "name": "List all subteams of a team",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "{{baseUrl}}/v1/organizations/accounts/teams/:id/subteams/",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "sort",
+                "value": "",
+                "type": "query",
+                "description": "Which field to use when ordering the results."
+              },
+              {
+                "name": "page[number]",
+                "value": "",
+                "type": "query",
+                "description": "A page number within the paginated result set."
+              },
+              {
+                "name": "page[size]",
+                "value": "",
+                "type": "query",
+                "description": "Number of results to return per page."
+              }
+            ]
+          },
+          "docs": "\n## Description\n\nThis endpoint returns a list that contains all the subteams of a team.\n\n\n## Sorting\nIt's possible to sort on the following fields:\n\n* name\n\nBy default results are ordered in ascending order, for descending descending put a '-' before the field.\n"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}
