@@ -41,6 +41,15 @@ tags:
 - Cloud Computing
 - Skills
 - Reporting
+- E-Learning
+tags_raw:
+- Company
+- Training
+- Education
+- Learning Management
+- Cloud Computing
+- Skills
+- Reporting
 - eLearning
 apis:
 - aid: cloud-academy:cloud-academy-learning-management-system-api
@@ -60,6 +69,8 @@ apis:
   humanURL: https://platform.qa.com/restapi/docs/swagger/
   baseURL: https://platform.qa.com/restapi
   tags:
+  - Organization
+  tags_raw:
   - Organizations
   properties:
   - type: OpenAPI
