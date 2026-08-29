@@ -1,0 +1,26 @@
+slug: cloud-academy
+provider: Cloud Academy
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Education
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: Learning Management System
+  spec_file: cloud-academy-learning-management-system-api-openapi.yml
+  capability_id: BC-300.40
+  capability_id_l1: BC-300
+  capability_name: Learning & Development Management
+  confidence: 0.78
+  evidence: GET /v2/company/progress/  Retrieve content progress for your organization member by member;
+    GET /v2/content/catalog/  Access the QA Platform content catalog
+  reason: Operations expose a training content catalogue and per-member learning progress for an enterprise,
+    which realises corporate learning and development management. Some overlap with education-frame learning-environment
+    capabilities, but the buyer context is workforce training.

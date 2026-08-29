@@ -103,6 +103,9 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: CapabilityMap
+  url: capabilities/cloud-academy-capability-edges.yml
+  name: Cloud Academy Business Capability Map
 - type: Overlay
   url: overlays/cloud-academy-openapi-overlay.yaml
 - type: Website
