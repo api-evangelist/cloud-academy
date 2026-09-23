@@ -1,9 +1,7 @@
 {
   "provider": "cloud-academy",
   "sources": [
-    "cloud-academy-learning-management-system-api-openapi.yml",
-    "cloud-academy-organizations-api-openapi.yml",
-    "cloud-academy-reports-api-openapi.yml"
+    "_original/cloud-academy-openapi-original.json"
   ],
   "outputs": [
     "cloud-academy-learning-management-system-api-openapi.yml",
@@ -13,6 +11,17 @@
   "archived": [],
   "errors": [],
   "warnings": [],
-  "notes": [],
-  "skipped": []
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "cloud-academy-openapi-original.json: upgraded swagger 2.0 -> OpenAPI 3.2.0",
+    "cloud-academy-openapi-original.json: declared missing tag: Learning Management System",
+    "cloud-academy-openapi-original.json: declared missing tag: Organizations",
+    "cloud-academy-openapi-original.json: declared missing tag: Reports",
+    "apis.yml register: already-registered"
+  ],
+  "skipped": [
+    "cloud-academy-learning-management-system-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cloud-academy-organizations-api-openapi.yml: previously refined output, superseded by openapi/_original/",
+    "cloud-academy-reports-api-openapi.yml: previously refined output, superseded by openapi/_original/"
+  ]
 }
