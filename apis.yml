@@ -50,7 +50,7 @@ tags:
 - Company
 - Training
 - Education
-- Learning Management
+- LMS
 - Cloud Computing
 - Skills
 - Reporting
@@ -72,6 +72,8 @@ apis:
   humanURL: https://platform.qa.com/restapi/docs/swagger/
   baseURL: https://platform.qa.com/restapi
   tags:
+  - LMS
+  tags_raw:
   - Learning Management System
   properties:
   - type: OpenAPI
