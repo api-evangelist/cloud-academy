@@ -64,6 +64,137 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-Cloud Academy is a company surfaced as a portfolio company of 500-global and added to the API Evangelist network as a stub for enrichment. This profile is a lead awaiting the enrichment pipeline.
+Cloud Academy is a hands-on technology skills training platform, now operating as the QA Learning Platform (cloudacademy.com redirects to platform.qa.com). It combines self-paced course content with hands-on labs, learning paths, quizzes, and exams across cloud, security, and software disciplines. Its public REST API lets enterprise administrators integrate the platform with internal business systems — browsing the content catalog, managing organization teams and members, and generating asynchronous reports on learner activity, progress, and skills. Authentication is OAuth2 client-credentials and the public API is rate-limited to 100 requests per minute. Cloud Academy was surfaced as a 500 Global portfolio company and enriched into the API Evangelist network from its live Swagger definition.
 
-Backed by: 500-global — https://cloudacademy.com
+**Areas:** Company · Training · Education · LMS · Cloud Computing · Skills · Reporting · E-Learning
+
+## Cloud Academy on APIs.io
+
+Everything profiled for Cloud Academy is published on APIs.io rather than in this repository. Start at the provider page — **[apis.io/providers/cloud-academy/](https://apis.io/providers/cloud-academy/)** — or go straight to one of the APIs or properties below.
+
+### APIs (3)
+
+- [Cloud Academy Learning Management System API](https://apis.io/apis/cloud-academy/cloud-academy-learning-management-system-api/) — The Learning Management System API from Cloud Academy — 9 operation(s) for learning management system.
+- [Cloud Academy Organizations API](https://apis.io/apis/cloud-academy/cloud-academy-organizations-api/) — The Organizations API from Cloud Academy — 5 operation(s) for organizations.
+- [Cloud Academy Reports API](https://apis.io/apis/cloud-academy/cloud-academy-reports-api/) — The Reports API from Cloud Academy — 32 operation(s) for reports.
+
+### Published properties
+
+Each property below is a page on APIs.io carrying the machine-readable artifact and what it says.
+
+#### MCP servers (1)
+
+Model Context Protocol servers that expose the API to agents.
+
+- [cloud-academy](https://apis.io/servers/cloud-academy/cloud-academy/)
+
+#### Agentic access (1)
+
+Which operations an agent can call, which act, and which need a human in the loop.
+
+- [Cloud Academy Agentic Access](https://apis.io/agentic-access/cloud-academy/cloud-academy-agentic-access/)
+
+#### Collections (3)
+
+Postman and Open Collection request collections.
+
+- [QA Learning Management System API](https://apis.io/collections/cloud-academy/open-cloud-academy-learning-management-system-api/)
+- [QA Learning Management System Organizations API](https://apis.io/collections/cloud-academy/open-cloud-academy-organizations-api/)
+- [QA Learning Management System Reports API](https://apis.io/collections/cloud-academy/open-cloud-academy-reports-api/)
+
+#### Overlays (1)
+
+OpenAPI overlays, including conversational phrasing for each operation.
+
+- [Cloud Academy Openapi Overlay](https://apis.io/overlays/cloud-academy/cloud-academy-openapi-overlay/)
+
+#### Security (2)
+
+Authentication, trust centre, and vulnerability disclosure.
+
+- [Cloud Academy Authentication](https://apis.io/security/cloud-academy/cloud-academy-authentication/)
+- [Cloud Academy Domain Security](https://apis.io/security/cloud-academy/cloud-academy-domain-security/)
+
+#### OAuth scopes (1)
+
+The permissions the API asks for.
+
+- [Cloud Academy Scopes](https://apis.io/scopes/cloud-academy/cloud-academy-scopes/)
+
+#### Rate limits (1)
+
+Published request limits.
+
+- [Cloud Academy Rate Limits](https://apis.io/rate-limits/cloud-academy/cloud-academy-rate-limits/)
+
+## Where to find this API
+
+Links to the company's own pages. This repository publishes no copy of their specifications — the canonical document is theirs and lives at the URLs below.
+
+- [Website](https://cloudacademy.com)
+- [Documentation](https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API)
+- [Getting started](https://support.platform.qa.com/hc/en-us/articles/360040446031-Cloud-Academy-API)
+- [API reference](https://platform.qa.com/restapi/docs/swagger/)
+- [Pricing](https://platform.qa.com/pricing/)
+- [Sign up](https://platform.qa.com/login/)
+- [Support](https://support.platform.qa.com/hc/en-us)
+- [Blog](https://www.qa.com/resources/blog/)
+- [Terms of service](https://www.qa.com/legal-privacy/)
+- [Privacy policy](https://www.qa.com/legal-privacy/privacy-notice/)
+- [GitHub](https://github.com/cloudacademy)
+- [Status](https://status.platform.qa.com)
+
+## API Evangelist rating
+
+**Kin Score 46.7** — developing · rubric 0.25.0 · scored 2026-10-23
+
+| Facet | Score |
+|---|---|
+| Discoverability | 73.2 |
+| Contract quality | 46.3 |
+| Contract governance | 4.5 |
+| Operational transparency | 57.9 |
+| Developer ergonomics | 58.9 |
+| Access clarity | 31.6 |
+
+**Agent readiness 30.4** — agent-ready
+
+| Agent-readiness dimension | Result |
+|---|---|
+| Spec Presence | yes |
+| Agentic Access | derived (partial credit) |
+| Reversibility Documented | — |
+| MCP Server | — |
+| Auth Clarity | negotiable (partial credit) |
+| Idempotency | — |
+| Error Semantics | derived (partial credit) |
+| OpenAPI Examples | verified |
+| Rate Limit Signal | documented (partial credit) |
+| Event Surface Described | — |
+| Agent Skills | derived (partial credit) |
+| Well Known Catalog | — |
+| Consent Identity | — |
+| Agent Card | — |
+| Dry Run Mode | — |
+| Delegated Identity | — |
+| Protected Resource Metadata | — |
+| Dynamic Client Registration | — |
+| Agentic Commerce | — |
+| Pagination Ratio | partial |
+| Operation Distinctiveness | mostly |
+
+**Regulatory alignment 34.3** — Education & Research
+
+The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/cloud-academy/](https://apis.io/providers/cloud-academy/).
+
+## How this profile is made
+
+API Evangelist profiles a company's public API surface the way a developer would find it: the website, developer portal and documentation, the specifications it publishes, its public repositories, and its pricing, status and changelog pages. From that it derives the properties above — contracts split per API, workflows, schemas, collections, governance rules, plans and rate limits — and scores them against the published [Kin Score rubric](https://github.com/api-evangelist/kin-score).
+
+The artifacts are published on [APIs.io](https://apis.io), not in this repository. This repository is the public record for Cloud Academy: the place to say something is wrong, missing or out of date, and to ask for a re-score or a removal.
+
+## Open an issue
+
+- **Something about this listing** — a wrong description, a missing API, a stale artifact or a question about the rating: [open an issue on this repository](https://github.com/api-evangelist/cloud-academy/issues/new).
+- **A new API, or one that is not in the catalog yet** — [submit it on APIs.io](https://apis.io/add/).
+- **Anything else** — [the APIs.io inbox](https://github.com/api-search/inbox/issues/new) or [info@apievangelist.com](mailto:info@apievangelist.com).
